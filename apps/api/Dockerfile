@@ -22,5 +22,9 @@ FROM base AS runtime
 ENV NODE_ENV=production
 COPY --from=build /repo /repo
 WORKDIR /repo/apps/api
-# Apply pending migrations, then start. Render/Railway inject PORT + DB env vars.
-CMD ["sh", "-c", "pnpm exec prisma migrate deploy && node dist/main.js"]
+# ENTRYPOINT runs migrations on every start and then execs the CMD. Because the
+# migrate step lives in ENTRYPOINT (not CMD), it still runs even if the host
+# (Railway/Render) overrides the start command — the override just replaces CMD,
+# which the entrypoint execs after migrating.
+ENTRYPOINT ["sh", "/repo/apps/api/docker-entrypoint.sh"]
+CMD ["node", "dist/main.js"]
