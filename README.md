@@ -1,40 +1,46 @@
-# Alek Portfolio
+# Alek Portfolio — monorepo
 
-Personal portfolio of **Aleksandar Aleksandrov** — a full-stack engineer building
-with React / Next.js and Nest.js. Deployed on Vercel.
+Personal portfolio and full-stack playground of **Aleksandar Aleksandrov**.
 
-Built on the latest **Next.js 16 (App Router) · React 19 · Tailwind CSS v4 ·
-shadcn/ui · Motion**.
+A **pnpm workspace** with two deploy targets and a shared package:
 
-## How it's organized
-
-Pages render from typed **content modules** — editing content never means touching
-component code:
-
-- `content/site.ts` — name, tagline, resume URL, and the data-driven links
-  (GitHub / LinkedIn are a one-line add).
-- `content/projects.ts` — each project is one object. A project starts as
-  `planned` / `in-progress` (status badge, no dead links) and flips to `live`
-  with real links when it ships. `app/projects/[slug]` prerenders one page per
-  project automatically.
-- `content/experience.ts` — work history, skills, and bio for the About page.
-
-Dark mode follows the OS setting (`prefers-color-scheme`) with no JavaScript.
-
-## Getting started
-
-```bash
-npm install
-npm run dev
+```
+apps/
+  web/        Next.js 16 portfolio (React 19, Tailwind v4, shadcn/ui, Motion)  → Vercel
+  api/        Nest.js API (Prisma + Postgres)                                  → Render
+packages/
+  shared/     @repo/shared — TypeScript types shared by web + api
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+The frontend is a content-driven portfolio; the backend is a real Nest.js service
+demonstrating a full-stack slice (see the **/lab** page — a live list served by
+Nest, stored in Postgres, with the `Item` type shared across both sides).
 
-Add your resume at `public/alek-resume.pdf` to wire up the Resume link.
+## Quick start
 
-## Scripts
+```bash
+pnpm install
+pnpm db:up                                    # local Postgres in Docker
+cp apps/api/.env.example apps/api/.env        # local DB URLs
+pnpm --filter api exec prisma migrate dev     # create tables
+pnpm --filter api exec ts-node prisma/seed.ts # optional seed
+pnpm dev                                       # web :3000  +  api :3001
+```
 
-- `npm run dev` — start the dev server
-- `npm run build` — production build
-- `npm run start` — serve the production build
-- `npm run lint` — lint
+Open [localhost:3000](http://localhost:3000) (and `/lab` for the full-stack demo).
+
+## Scripts (run from the repo root)
+
+- `pnpm dev` — build shared, then run web + api together
+- `pnpm build` — build every package (`pnpm -r build`)
+- `pnpm lint` — lint every package
+- `pnpm db:up` / `pnpm db:down` — start/stop the local Postgres
+
+## Architecture & deployment
+
+- Content model & frontend conventions: the web app renders from typed modules in
+  `apps/web/content/`.
+- **Deploying** (Neon + Render + Vercel): see [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
+- Design rationale: [`docs/specs/2026-07-02-backend-monorepo-neon-railway-design.md`](docs/specs/2026-07-02-backend-monorepo-neon-railway-design.md).
+
+Add your resume at `apps/web/public/alek-resume.pdf` to wire up the Resume link.

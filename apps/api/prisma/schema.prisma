@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  // Pooled connection for the app at runtime.
+  url       = env("DATABASE_URL")
+  // Direct (unpooled) connection for migrations — required by Neon.
+  directUrl = env("DIRECT_URL")
+}
+
+model Item {
+  id        String   @id @default(cuid())
+  title     String
+  createdAt DateTime @default(now())
+}
