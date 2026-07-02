@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 
 import { statusLabel, statusVariant } from "@/components/project-card";
 import { Container } from "@/components/section";
@@ -98,7 +98,15 @@ export default async function ProjectPage({
       </div>
 
       <div className="mt-12 border-t border-border/60 pt-8">
-        {hasLinks ? (
+        {project.href ? (
+          <Link
+            href={project.href}
+            className={cn(buttonVariants({ size: "lg" }), "h-10 px-5")}
+          >
+            Try it live
+            <ArrowRight />
+          </Link>
+        ) : hasLinks ? (
           <div className="flex flex-wrap gap-3">
             {project.links!.map((link) => (
               <a

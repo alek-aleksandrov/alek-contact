@@ -4,7 +4,14 @@ import { ExperienceItem } from "@/components/experience-item";
 import { Reveal } from "@/components/reveal";
 import { Section, SectionHeading } from "@/components/section";
 import { SocialLinks } from "@/components/social-links";
-import { bio, experience, skills } from "@/content/experience";
+import {
+  bio,
+  education,
+  experience,
+  languages,
+  recommendations,
+  skills,
+} from "@/content/experience";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -40,6 +47,31 @@ export default function AboutPage() {
       </Section>
 
       <Section className="border-t border-border/60">
+        <SectionHeading eyebrow="Kind words" title="Recommendations" />
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
+          {recommendations.map((rec) => (
+            <Reveal key={rec.name}>
+              <figure className="h-full rounded-xl border border-border/60 p-6">
+                <blockquote className="text-sm leading-relaxed text-muted-foreground">
+                  &ldquo;{rec.text}&rdquo;
+                </blockquote>
+                <figcaption className="mt-4">
+                  <span className="text-sm font-medium">{rec.name}</span>
+                  <span className="text-sm text-muted-foreground">
+                    {" "}
+                    — {rec.title}
+                  </span>
+                  <span className="mt-0.5 block font-mono text-xs text-muted-foreground/70">
+                    {rec.relationship}
+                  </span>
+                </figcaption>
+              </figure>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section className="border-t border-border/60">
         <SectionHeading eyebrow="Toolkit" title="Skills" />
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {skills.map((group) => (
@@ -52,6 +84,42 @@ export default function AboutPage() {
               </ul>
             </div>
           ))}
+        </div>
+      </Section>
+
+      <Section className="border-t border-border/60">
+        <SectionHeading eyebrow="Background" title="Education" />
+        <div className="mt-10 space-y-5">
+          {education.map((e) => (
+            <div
+              key={e.school}
+              className="grid gap-1 sm:grid-cols-[9rem_1fr] sm:gap-6"
+            >
+              <p className="font-mono text-sm text-muted-foreground">
+                {e.start} – {e.end}
+              </p>
+              <div>
+                <p className="font-heading font-medium">{e.school}</p>
+                <p className="text-sm text-muted-foreground">{e.credential}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-10">
+          <h3 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            Languages
+          </h3>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {languages.map((l) => (
+              <span
+                key={l.name}
+                className="rounded-md bg-muted px-2.5 py-1 text-sm text-muted-foreground"
+              >
+                {l.name} · {l.proficiency}
+              </span>
+            ))}
+          </div>
         </div>
       </Section>
     </>

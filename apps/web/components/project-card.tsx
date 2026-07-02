@@ -22,7 +22,10 @@ export const statusVariant: Record<
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <Link href={`/projects/${project.slug}`} className="group block h-full">
+    <Link
+      href={project.href ?? `/projects/${project.slug}`}
+      className="group block h-full"
+    >
       <Card className="h-full transition-all group-hover:ring-foreground/25">
         <CardHeader>
           <div className="flex items-center justify-between gap-2">

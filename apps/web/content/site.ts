@@ -23,6 +23,8 @@ export const site = {
   resumeUrl: "/alek-resume.pdf",
   email: "alek.aleksandrov@proton.me",
   location: "Las Vegas, NV",
+  // Public URL of the "Ask About Alek" MCP server (the /mcp route handler).
+  mcpUrl: "https://alek-contact.com/mcp",
 
   links: [
     { label: "Resume", href: "/alek-resume.pdf", icon: "file-text", external: true },

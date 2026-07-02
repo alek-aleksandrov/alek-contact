@@ -14,6 +14,7 @@ const navItems = [
   { href: "/projects", label: "Projects" },
   { href: "/about", label: "About" },
   { href: "/lab", label: "Lab" },
+  { href: "/tldr", label: "tl;dr" },
 ];
 
 export function SiteNav() {

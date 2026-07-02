@@ -32,6 +32,12 @@ export type Project = {
   cover?: string;
   /** Surface on the home page. */
   featured?: boolean;
+  /**
+   * If set, the project CARD links here (e.g. a live/interactive page) instead
+   * of the /projects/[slug] detail page, and the detail page shows a prominent
+   * "Try it live" CTA pointing to it.
+   */
+  href?: string;
 };
 
 export const projects: Project[] = [
@@ -77,7 +83,7 @@ export const projects: Project[] = [
     tagline: "An MCP endpoint an LLM can query to answer questions about me.",
     description:
       "A public, shareable endpoint a recruiter can drop into an LLM (Claude, etc.) to ask questions about my background — \"tl;dr about Alek,\" \"does he have production AI experience?\" — answered from a structured profile. Built as an MCP server exposed from this Next.js app: the same AI-orchestration pattern I work with day to day, turned on myself.",
-    status: "in-progress",
+    status: "live",
     stack: ["Next.js", "MCP", "TypeScript", "LLM"],
     highlights: [
       "Model Context Protocol server exposing a queryable candidate profile",
@@ -86,6 +92,8 @@ export const projects: Project[] = [
     ],
     year: 2026,
     featured: true,
+    // Card + detail-page CTA both funnel to the live /tldr experience.
+    href: "/tldr",
   },
 ];
 
