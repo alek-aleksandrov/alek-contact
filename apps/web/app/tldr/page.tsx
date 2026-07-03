@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Copy, FileText } from "lucide-react";
 
+import { AskConsole } from "@/components/console/ask-console";
 import { CopyButton } from "@/components/copy-button";
 import { Section } from "@/components/section";
 import { buttonVariants } from "@/components/ui/button";
@@ -11,15 +12,8 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "tl;dr",
   description:
-    "Too busy to read a résumé? Same. I turned myself into an MCP server — paste it into Claude and interrogate me.",
+    "Too busy to read a résumé? Same. Ask a live model about me right here — it runs in your browser, on my dime, or connect the MCP server yourself.",
 };
-
-const questions = [
-  "tl;dr about Alek",
-  "Does he have real production AI experience?",
-  "Assess him for a senior React role",
-  "What's his frontend depth?",
-];
 
 const mcpJson = `{
   "mcpServers": {
@@ -40,33 +34,43 @@ export default function TldrPage() {
         Too busy to read a résumé? Same.
       </h1>
       <p className="mt-5 max-w-2xl text-lg text-pretty text-muted-foreground">
-        So I turned myself into an MCP server. Paste it into Claude (or any
-        MCP-capable client) and grill it about me as a candidate — it only knows
-        the truth, straight from my profile.
+        So I turned myself into a model you can interrogate. Ask away below — on a
+        capable desktop it runs 100% in your browser; everywhere else it answers
+        on a free model I&apos;m footing the bill for. Either way it only knows the
+        truth, straight from my profile.
       </p>
 
-      {/* Copy-to-connect URL */}
+      {/* Console — the centerpiece */}
       <div className="mt-10 max-w-2xl">
-        <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-muted/30 px-4 py-3">
-          <code className="truncate font-mono text-sm sm:text-base">
-            {site.mcpUrl}
-          </code>
-          <CopyButton
-            value={site.mcpUrl}
-            copiedLabel="Copied ✓"
-            className={cn(buttonVariants({ size: "sm" }), "shrink-0")}
-          >
-            <Copy className="size-4" />
-            Copy
-          </CopyButton>
-        </div>
+        <AskConsole />
       </div>
 
-      {/* How to connect */}
-      <div className="mt-12">
+      {/* Bring your own client */}
+      <div className="mt-14 border-t border-border/60 pt-10">
         <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-          Connect it
+          Prefer your own client?
         </h2>
+        <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+          It&apos;s a real MCP server. Point Claude, Cursor, or any MCP-capable
+          client at it:
+        </p>
+
+        <div className="mt-5 max-w-2xl">
+          <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-muted/30 px-4 py-3">
+            <code className="truncate font-mono text-sm sm:text-base">
+              {site.mcpUrl}
+            </code>
+            <CopyButton
+              value={site.mcpUrl}
+              copiedLabel="Copied ✓"
+              className={cn(buttonVariants({ size: "sm" }), "shrink-0")}
+            >
+              <Copy className="size-4" />
+              Copy
+            </CopyButton>
+          </div>
+        </div>
+
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <div className="rounded-xl border border-border/60 p-5">
             <p className="font-heading text-sm font-medium">Claude.ai / Desktop</p>
@@ -97,25 +101,6 @@ export default function TldrPage() {
         </div>
       </div>
 
-      {/* Try asking */}
-      <div className="mt-12">
-        <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-          Try asking <span className="normal-case">(click to copy)</span>
-        </h2>
-        <div className="mt-5 flex flex-wrap gap-2">
-          {questions.map((q) => (
-            <CopyButton
-              key={q}
-              value={q}
-              copiedLabel="Copied ✓"
-              className="rounded-full border border-border/70 bg-background px-3.5 py-1.5 text-sm text-muted-foreground hover:border-foreground/30 hover:text-foreground"
-            >
-              &ldquo;{q}&rdquo;
-            </CopyButton>
-          ))}
-        </div>
-      </div>
-
       {/* Prefer paper */}
       <div className="mt-14 border-t border-border/60 pt-8">
         <p className="text-sm text-muted-foreground">
@@ -135,7 +120,7 @@ export default function TldrPage() {
       {/* Wink */}
       <p className="mt-12 max-w-2xl text-sm text-muted-foreground/70 italic">
         Yes — it&apos;s an MCP server built by someone who builds MCP servers for
-        a living. Meta, I know.{" "}
+        a living, now with a model bolted on. Meta, I know.{" "}
         <Link
           href="/projects/ask-about-alek"
           className="inline-flex items-center gap-1 text-muted-foreground not-italic underline-offset-4 hover:text-foreground hover:underline"
