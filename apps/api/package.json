@@ -11,7 +11,7 @@
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "seed": "ts-node prisma/seed.ts",
-    "lint": "prisma generate && tsc --noEmit -p tsconfig.build.json"
+    "lint": "pnpm --filter @repo/shared build && prisma generate && tsc --noEmit -p tsconfig.build.json"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.29.0",
