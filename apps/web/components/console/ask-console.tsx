@@ -8,6 +8,7 @@ import {
   type ChatMessage,
 } from "@/lib/console/config";
 import { askHosted } from "@/lib/console/hosted-engine";
+import { Markdown } from "@/components/console/markdown";
 
 type Mode = "hosted" | "offline";
 
@@ -21,8 +22,30 @@ export function AskConsole() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const [models, setModels] = useState<string[]>([]);
+  const [model, setModel] = useState("");
 
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Load the backend's model list to populate the picker. If it fails, the
+  // dropdown simply stays hidden and answers use the server default.
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/models")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { models?: string[]; default?: string } | null) => {
+        if (!alive || !d) return;
+        const def = typeof d.default === "string" ? d.default : "";
+        const list = Array.isArray(d.models) ? d.models : [];
+        const ordered = Array.from(new Set([def, ...list].filter(Boolean)));
+        setModels(ordered);
+        setModel(def || ordered[0] || "");
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   // Keep the transcript pinned to the bottom as it grows.
   useEffect(() => {
@@ -39,14 +62,18 @@ export function AskConsole() {
     setBusy(true);
 
     try {
-      await askHosted(history, (delta) => {
-        setMessages((prev) => {
-          const next = [...prev];
-          const i = next.length - 1;
-          next[i] = { role: "assistant", content: next[i].content + delta };
-          return next;
-        });
-      });
+      await askHosted(
+        history,
+        (delta) => {
+          setMessages((prev) => {
+            const next = [...prev];
+            const i = next.length - 1;
+            next[i] = { role: "assistant", content: next[i].content + delta };
+            return next;
+          });
+        },
+        model || undefined,
+      );
       setMode("hosted");
     } catch {
       setMode("offline");
@@ -77,10 +104,30 @@ export function AskConsole() {
           <span className="size-2 rounded-full bg-green-400/70" />
           <span className="ml-2">ask-about-alek</span>
         </span>
-        <span
-          className={mode === "offline" ? "text-red-400/80" : "text-emerald-400/80"}
-        >
-          {pill}
+        <span className="flex items-center gap-3">
+          {models.length > 1 && (
+            <select
+              value={model}
+              onChange={(e) => setModel(e.target.value)}
+              disabled={busy}
+              aria-label="Model"
+              title="Answering model"
+              className="max-w-[9rem] truncate rounded border border-white/15 bg-white/5 px-1.5 py-0.5 text-[11px] text-zinc-300 focus:outline-none disabled:opacity-50"
+            >
+              {models.map((m) => (
+                <option key={m} value={m} className="bg-[#0b0e14] text-zinc-200">
+                  {m}
+                </option>
+              ))}
+            </select>
+          )}
+          <span
+            className={
+              mode === "offline" ? "text-red-400/80" : "text-emerald-400/80"
+            }
+          >
+            {pill}
+          </span>
         </span>
       </div>
 
@@ -102,12 +149,14 @@ export function AskConsole() {
                 {m.content}
               </p>
             ) : (
-              <p className="whitespace-pre-wrap text-zinc-100">
-                {m.content}
+              <div className="text-zinc-100">
+                <Markdown>{m.content}</Markdown>
                 {busy && i === messages.length - 1 && (
-                  <span className="ml-0.5 inline-block animate-pulse">▍</span>
+                  <span className="inline-block animate-pulse text-emerald-400">
+                    ▍
+                  </span>
                 )}
-              </p>
+              </div>
             )}
           </div>
         ))}

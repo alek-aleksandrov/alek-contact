@@ -9,11 +9,12 @@
 
 import { buildSystemPrompt } from "@/lib/console/profile-context";
 import { MAX_INPUT_CHARS, type ChatMessage } from "@/lib/console/config";
+import { getAvailableModels } from "@/lib/console/model-registry";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const MAX_OUTPUT_TOKENS = 400;
+const MAX_OUTPUT_TOKENS = 800;
 const MAX_MESSAGES = 12;
 
 function fail(message: string, status: number) {
@@ -31,17 +32,17 @@ function originAllowed(req: Request): boolean {
 
 export async function POST(req: Request) {
   const baseUrl = process.env.ASK_BASE_URL;
-  const model = process.env.ASK_MODEL;
+  const defaultModel = process.env.ASK_MODEL;
   const apiKey = process.env.ASK_API_KEY;
 
-  if (!baseUrl || !model || !apiKey) {
+  if (!baseUrl || !defaultModel || !apiKey) {
     return fail("Hosted answering is not configured.", 503);
   }
   if (!originAllowed(req)) {
     return fail("Forbidden.", 403);
   }
 
-  let body: { messages?: ChatMessage[] };
+  let body: { messages?: ChatMessage[]; model?: string };
   try {
     body = await req.json();
   } catch {
@@ -61,6 +62,18 @@ export async function POST(req: Request) {
   }
   if (last.content.length > MAX_INPUT_CHARS) {
     return fail(`Question too long (max ${MAX_INPUT_CHARS} chars).`, 400);
+  }
+
+  // Resolve the model: honor the client's choice only if the backend actually
+  // offers it; otherwise fall back to the configured default. Stops a public
+  // proxy from being pointed at arbitrary models.
+  let model = defaultModel;
+  const requested = body.model;
+  if (typeof requested === "string" && requested !== defaultModel) {
+    const available = await getAvailableModels();
+    if (available.includes(requested)) {
+      model = requested;
+    }
   }
 
   let upstream: Response;
