@@ -17,7 +17,17 @@ const BOOT_LOG = [
   "✓ ready — ask me anything about Alek as a candidate",
 ];
 
-export function AskConsole() {
+export function AskConsole({
+  endpoint = "/api/ask",
+  title = "ask-about-alek",
+  bootLog = BOOT_LOG,
+  suggestions = SUGGESTED_QUESTIONS,
+}: {
+  endpoint?: string;
+  title?: string;
+  bootLog?: string[];
+  suggestions?: string[];
+} = {}) {
   const [mode, setMode] = useState<Mode>("hosted");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
@@ -73,6 +83,7 @@ export function AskConsole() {
           });
         },
         model || undefined,
+        endpoint,
       );
       setMode("hosted");
     } catch {
@@ -102,7 +113,7 @@ export function AskConsole() {
           <span className="size-2 rounded-full bg-red-400/70" />
           <span className="size-2 rounded-full bg-yellow-400/70" />
           <span className="size-2 rounded-full bg-green-400/70" />
-          <span className="ml-2">ask-about-alek</span>
+          <span className="ml-2">{title}</span>
         </span>
         <span className="flex items-center gap-3">
           {models.length > 1 && (
@@ -136,7 +147,7 @@ export function AskConsole() {
         ref={scrollRef}
         className="h-80 overflow-y-auto px-4 py-3 leading-relaxed"
       >
-        {BOOT_LOG.map((line, i) => (
+        {bootLog.map((line, i) => (
           <p key={`boot-${i}`} className="text-zinc-500">
             {line}
           </p>
@@ -164,7 +175,7 @@ export function AskConsole() {
 
       {/* Suggested chips */}
       <div className="flex flex-wrap gap-2 border-t border-white/10 px-4 py-2">
-        {SUGGESTED_QUESTIONS.map((q) => (
+        {suggestions.map((q) => (
           <button
             key={q}
             type="button"

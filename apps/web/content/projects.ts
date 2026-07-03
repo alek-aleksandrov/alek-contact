@@ -52,7 +52,7 @@ export const projects: Project[] = [
       "My custom Claude Code agents + commands, packaged as an installable plugin.",
     description:
       "A public Claude Code plugin that bundles the agents and slash-commands I actually use day to day into one install. It spans the whole engineering lifecycle — opening PRs, reviewing diffs for security and performance, running multi-session projects, logging sessions, reproducing bugs in a real browser, triaging incidents, and managing Jira — distributed through a Claude Code marketplace so anyone can add it in two commands.",
-    status: "in-progress",
+    status: "live",
     stack: ["Claude Code", "Plugins", "Markdown", "YAML", "Agents"],
     highlights: [
       "pr-creator — opens/updates GitHub PRs with clean what-and-why descriptions via gh",
@@ -68,8 +68,13 @@ export const projects: Project[] = [
       "/plugin marketplace add alek-aleksandrov/claude-toolkit\n/plugin install engineering-toolkit@claude-toolkit",
     year: 2026,
     featured: true,
-    // Flip to status: "live" + add links:[{label:"Repo",href:"https://github.com/alek-aleksandrov/claude-toolkit"}]
-    // once the repo is pushed public. Add `demo` once a real gif is recorded.
+    links: [
+      {
+        label: "Repo",
+        href: "https://github.com/alek-aleksandrov/claude-toolkit",
+      },
+    ],
+    // Add a `demo` gif once one is recorded.
   },
   {
     slug: "multi-agent-visualizer",
@@ -104,6 +109,8 @@ export const projects: Project[] = [
     ],
     year: 2026,
     featured: true,
+    // Card + detail-page CTA funnel to the live dashboard.
+    href: "/finance",
     // links added when deployed:
     // links: [{ label: "Live", href: "https://..." }, { label: "Code", href: "https://github.com/..." }],
   },

@@ -15,3 +15,48 @@ model Item {
   title     String
   createdAt DateTime @default(now())
 }
+
+// ---- Financial dashboard ----------------------------------------------------
+
+model FredSeries {
+  id                 String            @id // FRED series_id, e.g. "UNRATE"
+  title              String
+  units              String
+  frequency          String // native, e.g. "Monthly"
+  seasonalAdjustment String?
+  notes              String?
+  category           String // our grouping: "rates" | "inflation" | ...
+  lastUpdatedRemote  DateTime? // FRED series `last_updated`
+  lastFetchedAt      DateTime?
+  observations       FredObservation[]
+}
+
+model FredObservation {
+  seriesId String
+  date     DateTime
+  value    Decimal? // NULLABLE — FRED returns "." for missing
+  series   FredSeries @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+
+  @@id([seriesId, date])
+  @@index([seriesId, date])
+}
+
+model Instrument {
+  symbol      String  @id
+  name        String?
+  onWatchlist Boolean @default(true)
+  quote       Quote?
+}
+
+model Quote {
+  symbol        String     @id
+  price         Decimal
+  change        Decimal
+  changePercent Decimal
+  open          Decimal?
+  high          Decimal?
+  low           Decimal?
+  prevClose     Decimal?
+  fetchedAt     DateTime
+  instrument    Instrument @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
+}

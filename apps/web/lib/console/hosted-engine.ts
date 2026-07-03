@@ -10,8 +10,9 @@ export async function askHosted(
   messages: ChatMessage[],
   onDelta: (delta: string) => void,
   model?: string,
+  endpoint: string = "/api/ask",
 ): Promise<string> {
-  const res = await fetch("/api/ask", {
+  const res = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(model ? { messages, model } : { messages }),

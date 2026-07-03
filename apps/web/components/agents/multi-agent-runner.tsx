@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 
 import { PipelineGraph } from "@/components/agents/pipeline-graph";
-import { Markdown } from "@/components/console/markdown";
 import { buttonVariants } from "@/components/ui/button";
 import {
   MAX_INPUT_CHARS,
@@ -42,7 +41,6 @@ export function MultiAgentRunner() {
   const [topic, setTopic] = useState("");
   const [running, setRunning] = useState(false);
   const [banner, setBanner] = useState<string | null>(null);
-  const [final, setFinal] = useState<string | null>(null);
   const [nodes, setNodes] = useState<Record<NodeId, NodeState>>(initialNodes);
 
   const controllerRef = useRef<AbortController | null>(null);
@@ -62,7 +60,6 @@ export function MultiAgentRunner() {
 
     setNodes(initialNodes());
     setBanner(null);
-    setFinal(null);
     setRunning(true);
 
     // Functional updaters keyed by id — required so the 3 parallel researcher
@@ -80,8 +77,8 @@ export function MultiAgentRunner() {
       {
         onDelta,
         onStatus,
-        onDone: (f) => {
-          setFinal(f);
+        onDone: () => {
+          // The synth spotlight card settles into the "Final answer" frame.
           setRunning(false);
         },
         onRunError: (msg) => {
@@ -164,17 +161,6 @@ export function MultiAgentRunner() {
       <div className="mt-8">
         <PipelineGraph nodes={nodes} />
       </div>
-
-      {final ? (
-        <div className="mt-8 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-5">
-          <p className="font-mono text-xs tracking-widest text-emerald-600 uppercase">
-            Final answer
-          </p>
-          <div className="mt-3 text-sm text-foreground/90">
-            <Markdown>{final}</Markdown>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }

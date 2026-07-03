@@ -1,7 +1,9 @@
 "use client";
 
 import { Markdown } from "@/components/console/markdown";
+import { VerdictBadge } from "@/components/agents/verdict-badge";
 import type { NodeState } from "@/lib/agents/config";
+import { cn } from "@/lib/utils";
 
 const STATUS_META: Record<
   NodeState["status"],
@@ -14,29 +16,29 @@ const STATUS_META: Record<
   error: { label: "error", cls: "text-red-500", dot: "bg-red-500" },
 };
 
-const VERDICT_META = {
-  pass: { label: "PASS", cls: "border-emerald-500/40 bg-emerald-500/10 text-emerald-600" },
-  fail: { label: "FAIL", cls: "border-amber-500/40 bg-amber-500/10 text-amber-600" },
-  unparsed: { label: "verdict unclear", cls: "border-border bg-muted text-muted-foreground" },
-} as const;
-
+/** Full "spotlight" node card. Body text scrolls inside a fixed-height box so a
+ * `layout`-animated parent never re-animates on every streamed token (Rule B). */
 export function AgentNode({ node }: { node: NodeState }) {
   const meta = STATUS_META[node.status];
   const isSynth = node.role === "synthesizer";
   const hasBody = node.text.trim().length > 0;
+  const active = node.status === "running" || node.status === "streaming";
 
   return (
-    <div className="rounded-xl border border-border/60 bg-card/40 p-4">
+    <div
+      className={cn(
+        "rounded-xl border bg-card/40 p-4 transition-colors",
+        active
+          ? "border-emerald-500/40 ring-1 ring-emerald-500/20"
+          : node.status === "error"
+            ? "border-red-500/40"
+            : "border-border/60",
+      )}
+    >
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <span className="font-heading text-sm font-medium">{node.label}</span>
-          {node.verdict ? (
-            <span
-              className={`rounded border px-1.5 py-0.5 text-[10px] font-medium ${VERDICT_META[node.verdict].cls}`}
-            >
-              {VERDICT_META[node.verdict].label}
-            </span>
-          ) : null}
+          {node.verdict ? <VerdictBadge verdict={node.verdict} /> : null}
         </div>
         <span className={`flex items-center gap-1.5 text-xs ${meta.cls}`}>
           <span className={`size-1.5 rounded-full ${meta.dot}`} />

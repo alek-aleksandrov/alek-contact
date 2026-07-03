@@ -15,3 +15,43 @@ export type Item = {
 export type CreateItemInput = {
   title: string;
 };
+
+// ---- Financial dashboard wire types -----------------------------------------
+// Numbers are plain `number` and dates are ISO `string` (never Prisma Decimal),
+// so both the ESM web app and the CJS API can consume them directly.
+
+export type ObservationWire = { date: string; value: number | null };
+
+/** A FRED series with its latest value + a short trailing window for sparklines. */
+export type SeriesLatest = {
+  id: string;
+  label: string;
+  category: string;
+  units: string;
+  frequency: string;
+  latest: ObservationWire | null;
+  previous: ObservationWire | null;
+  /** Oldest→newest numeric values for a sparkline (nulls dropped). */
+  spark: number[];
+};
+
+/** A real-time equity quote snapshot. */
+export type QuoteWire = {
+  symbol: string;
+  price: number;
+  change: number;
+  changePercent: number;
+  open: number | null;
+  high: number | null;
+  low: number | null;
+  prevClose: number | null;
+  fetchedAt: string;
+};
+
+/** The single payload the dashboard widgets, MCP server, and console all consume. */
+export type Snapshot = {
+  series: SeriesLatest[];
+  /** Watchlist quotes, sorted by day % change (movers order). */
+  quotes: QuoteWire[];
+  asOf: string;
+};
