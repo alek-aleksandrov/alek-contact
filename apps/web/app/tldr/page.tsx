@@ -6,7 +6,7 @@ import { AskConsole } from "@/components/console/ask-console";
 import { CopyButton } from "@/components/copy-button";
 import { Section } from "@/components/section";
 import { buttonVariants } from "@/components/ui/button";
-import { site } from "@/content/site";
+import { site } from "@repo/shared";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {

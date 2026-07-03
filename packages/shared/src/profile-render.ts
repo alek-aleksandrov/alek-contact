@@ -13,9 +13,9 @@ import {
   education,
   languages,
   type Experience,
-} from "@/content/experience";
-import { site } from "@/content/site";
-import { projects, type Project } from "@/content/projects";
+} from "./experience";
+import { site } from "./site";
+import { projects, type Project } from "./projects";
 
 function renderExperienceEntry(job: Experience): string {
   const lines: string[] = [];

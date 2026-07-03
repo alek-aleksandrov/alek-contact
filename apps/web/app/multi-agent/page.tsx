@@ -15,7 +15,7 @@ export default function MultiAgentPage() {
   return (
     <Section>
       <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-        Lab · Multi-Agent
+        Multi-Agent
       </p>
       <h1 className="font-heading mt-3 max-w-3xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
         Watch a multi-agent pipeline think.

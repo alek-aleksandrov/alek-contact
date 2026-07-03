@@ -1,16 +1,5 @@
-/**
- * Wires the "Ask About Alek" MCP surface onto a server instance:
- *   - 5 resources (alek://profile/*), all text/markdown
- *   - 2 tools (get_summary, search_experience), read-only, no side effects
- *   - 1 prompt (assess_alek_for_role)
- *
- * All content is derived from `@/content/*` via `render.ts` — single source of
- * truth, no duplication.
- */
-
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-
 import {
   renderSummary,
   renderExperience,
@@ -20,8 +9,8 @@ import {
   renderRecommendations,
   renderEducation,
   renderTldr,
-} from "./render";
-import { searchProfile } from "./search";
+  searchProfile,
+} from "@repo/shared";
 
 const MARKDOWN = "text/markdown";
 
@@ -87,22 +76,19 @@ const RESOURCES: ResourceDef[] = [
   },
 ];
 
-export function registerAll(server: McpServer): void {
-  // ---- Resources -----------------------------------------------------------
+/** Registers the "Ask About Alek" MCP surface (resources + tools + prompt). */
+export function registerAskMcp(server: McpServer): void {
   for (const r of RESOURCES) {
     server.registerResource(
       r.name,
       r.uri,
       { title: r.title, description: r.description, mimeType: MARKDOWN },
       async (uri) => ({
-        contents: [
-          { uri: uri.href, mimeType: MARKDOWN, text: r.render() },
-        ],
+        contents: [{ uri: uri.href, mimeType: MARKDOWN, text: r.render() }],
       }),
     );
   }
 
-  // ---- Tools ---------------------------------------------------------------
   server.registerTool(
     "get_summary",
     {
@@ -112,9 +98,7 @@ export function registerAll(server: McpServer): void {
       inputSchema: {},
       annotations: { readOnlyHint: true, openWorldHint: false },
     },
-    async () => ({
-      content: [{ type: "text", text: renderTldr() }],
-    }),
+    async () => ({ content: [{ type: "text", text: renderTldr() }] }),
   );
 
   server.registerTool(
@@ -152,7 +136,6 @@ export function registerAll(server: McpServer): void {
     },
   );
 
-  // ---- Prompt --------------------------------------------------------------
   server.registerPrompt(
     "assess_alek_for_role",
     {
@@ -185,7 +168,7 @@ export function registerAll(server: McpServer): void {
         "You can also call the `search_experience` tool for specific keywords relevant to the role.",
         "",
         "Then produce a concise assessment with two sections:",
-        `1. **Strengths** — where Alek fits the role, each backed by specific evidence (a highlight, project, or skill) from the resources.`,
+        "1. **Strengths** — where Alek fits the role, each backed by specific evidence (a highlight, project, or skill) from the resources.",
         "2. **Gaps** — honest areas where the profile shows little or no evidence for this role.",
         "",
         "Base every claim on the resource content; do not invent experience that isn't there.",
@@ -193,10 +176,7 @@ export function registerAll(server: McpServer): void {
 
       return {
         messages: [
-          {
-            role: "user" as const,
-            content: { type: "text" as const, text },
-          },
+          { role: "user" as const, content: { type: "text" as const, text } },
         ],
       };
     },

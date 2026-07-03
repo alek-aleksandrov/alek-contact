@@ -11,7 +11,7 @@ import {
   renderProjects,
   renderRecommendations,
   renderEducation,
-} from "@/lib/mcp/render";
+} from "@repo/shared";
 
 /** The full profile as one markdown blob (a few KB — fits in context, no RAG). */
 export function buildProfileContext(): string {

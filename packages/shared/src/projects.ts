@@ -27,6 +27,12 @@ export type Project = {
   highlights?: string[];
   /** Live demo / repo. Omit or leave empty while planned/in-progress. */
   links?: ProjectLink[];
+  /**
+   * Deep link to this project's source area in the repo. Rendered as a
+   * "View source" button on the detail page — shown alongside the live CTA
+   * and any `links`, not instead of them.
+   */
+  sourceHref?: string;
   year?: number;
   /** Optional cover image path in /public. */
   cover?: string;
@@ -92,7 +98,9 @@ export const projects: Project[] = [
     year: 2026,
     featured: true,
     // Card + detail-page CTA funnel to the live experience.
-    href: "/lab/multi-agent",
+    href: "/multi-agent",
+    sourceHref:
+      "https://github.com/alek-aleksandrov/alek-contact/tree/main/apps/web/app/multi-agent",
   },
   {
     slug: "financial-dashboard",
@@ -111,8 +119,8 @@ export const projects: Project[] = [
     featured: true,
     // Card + detail-page CTA funnel to the live dashboard.
     href: "/finance",
-    // links added when deployed:
-    // links: [{ label: "Live", href: "https://..." }, { label: "Code", href: "https://github.com/..." }],
+    sourceHref:
+      "https://github.com/alek-aleksandrov/alek-contact/tree/main/apps/api/src/finance",
   },
   {
     slug: "portfolio-site",
@@ -133,7 +141,7 @@ export const projects: Project[] = [
       { label: "Live", href: "/" },
       {
         label: "Code",
-        href: "https://github.com/alek-aleksandrov/nextjs-boilerplate",
+        href: "https://github.com/alek-aleksandrov/alek-contact",
       },
     ],
   },
@@ -154,6 +162,8 @@ export const projects: Project[] = [
     featured: true,
     // Card + detail-page CTA both funnel to the live /tldr experience.
     href: "/tldr",
+    sourceHref:
+      "https://github.com/alek-aleksandrov/alek-contact/tree/main/apps/api/src/mcp",
   },
 ];
 

@@ -3,7 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Project, ProjectStatus } from "@/content/projects";
+import type { Project, ProjectStatus } from "@repo/shared";
 
 export const statusLabel: Record<ProjectStatus, string> = {
   live: "Live",

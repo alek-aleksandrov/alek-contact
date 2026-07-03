@@ -3,11 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 
+import { GithubIcon } from "@/components/brand-icons";
 import { statusLabel, statusVariant } from "@/components/project-card";
 import { Container } from "@/components/section";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { getProject, projects } from "@/content/projects";
+import { getProject, projects } from "@repo/shared";
 import { cn } from "@/lib/utils";
 
 // Next 16: params is a Promise. Prerender one page per project at build time.
@@ -37,6 +38,7 @@ export default async function ProjectPage({
   if (!project) notFound();
 
   const hasLinks = project.links && project.links.length > 0;
+  const hasActions = project.href || hasLinks || project.sourceHref;
 
   return (
     <Container className="max-w-3xl py-16 sm:py-24">
@@ -111,28 +113,42 @@ export default async function ProjectPage({
       ) : null}
 
       <div className="mt-12 border-t border-border/60 pt-8">
-        {project.href ? (
-          <Link
-            href={project.href}
-            className={cn(buttonVariants({ size: "lg" }), "h-10 px-5")}
-          >
-            Try it live
-            <ArrowRight />
-          </Link>
-        ) : hasLinks ? (
-          <div className="flex flex-wrap gap-3">
-            {project.links!.map((link) => (
+        {hasActions ? (
+          <div className="flex flex-wrap items-center gap-3">
+            {project.href ? (
+              <Link
+                href={project.href}
+                className={cn(buttonVariants({ size: "lg" }), "h-10 px-5")}
+              >
+                Try it live
+                <ArrowRight />
+              </Link>
+            ) : null}
+            {hasLinks
+              ? project.links!.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={cn(buttonVariants({ variant: "outline" }), "h-10")}
+                  >
+                    {link.label}
+                    <ArrowUpRight />
+                  </a>
+                ))
+              : null}
+            {project.sourceHref ? (
               <a
-                key={link.href}
-                href={link.href}
+                href={project.sourceHref}
                 target="_blank"
                 rel="noreferrer"
-                className={cn(buttonVariants({ variant: "outline" }))}
+                className={cn(buttonVariants({ variant: "outline" }), "h-10")}
               >
-                {link.label}
-                <ArrowUpRight />
+                <GithubIcon />
+                View source
               </a>
-            ))}
+            ) : null}
           </div>
         ) : (
           <p className="text-sm text-muted-foreground">

@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 
 import { Container } from "@/components/section";
 import { SocialLinks } from "@/components/social-links";
-import { site } from "@/content/site";
+import { site } from "@repo/shared";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();

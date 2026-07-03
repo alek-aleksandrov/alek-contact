@@ -4,8 +4,8 @@
  * this keeps the endpoint keyless and dependency-free.
  */
 
-import { experience, skills } from "@/content/experience";
-import { projects } from "@/content/projects";
+import { experience, skills } from "./experience";
+import { projects } from "./projects";
 
 export type SearchHit = {
   /** Where the match came from, e.g. "Experience · Ninety" or "Skills · AI & Orchestration". */

@@ -6,8 +6,8 @@ import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
 import { Container, Section, SectionHeading } from "@/components/section";
 import { buttonVariants } from "@/components/ui/button";
-import { featuredProjects } from "@/content/projects";
-import { experience } from "@/content/experience";
+import { featuredProjects } from "@repo/shared";
+import { experience } from "@repo/shared";
 import { cn } from "@/lib/utils";
 
 export default function Home() {

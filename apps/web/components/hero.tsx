@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, FileText } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
-import { site } from "@/content/site";
+import { site } from "@repo/shared";
 import { cn } from "@/lib/utils";
 
 export function Hero() {

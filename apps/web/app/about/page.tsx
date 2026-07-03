@@ -11,8 +11,8 @@ import {
   languages,
   recommendations,
   skills,
-} from "@/content/experience";
-import { site } from "@/content/site";
+} from "@repo/shared";
+import { site } from "@repo/shared";
 
 export const metadata: Metadata = {
   title: "About",

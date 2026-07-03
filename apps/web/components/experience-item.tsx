@@ -1,4 +1,4 @@
-import type { Experience } from "@/content/experience";
+import type { Experience } from "@repo/shared";
 
 export function ExperienceItem({ item }: { item: Experience }) {
   return (

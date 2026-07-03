@@ -4,6 +4,14 @@
  * CommonJS consumer can use it. Built to CommonJS in dist/.
  */
 
+// Profile content (single source of truth) + its renderers, shared so both the
+// site pages AND the Nest-hosted "Ask About Alek" MCP server render identical text.
+export * from "./site";
+export * from "./experience";
+export * from "./projects";
+export * from "./profile-render";
+export * from "./profile-search";
+
 /** An item as returned by the API (dates serialized as ISO strings over the wire). */
 export type Item = {
   id: string;

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
 import { Section, SectionHeading } from "@/components/section";
-import { projects } from "@/content/projects";
+import { projects } from "@repo/shared";
 
 export const metadata: Metadata = {
   title: "Projects",
