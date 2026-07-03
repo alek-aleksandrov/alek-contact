@@ -1,12 +1,35 @@
 import type { NewsArticle } from "@repo/shared";
 
 import { WidgetCard } from "@/components/dashboard/widget-card";
+import { cn } from "@/lib/utils";
+
+/** Small bullish/bearish/neutral tag driven by the article's sentiment score. */
+function SentimentTag({ score }: { score: number | null }) {
+  if (score === null) return null;
+  const tone =
+    score > 0.15 ? "bullish" : score < -0.15 ? "bearish" : "neutral";
+  const arrow = tone === "bullish" ? "▲" : tone === "bearish" ? "▼" : "▬";
+  return (
+    <span
+      title={`Sentiment ${score > 0 ? "+" : ""}${score}`}
+      className={cn(
+        "font-mono text-[11px] tabular-nums",
+        tone === "bullish" && "text-emerald-500",
+        tone === "bearish" && "text-red-500",
+        tone === "neutral" && "text-muted-foreground/60",
+      )}
+    >
+      {arrow} {score > 0 ? "+" : ""}
+      {score.toFixed(2)}
+    </span>
+  );
+}
 
 export function MarketNewsWidget({ articles }: { articles: NewsArticle[] }) {
   return (
     <WidgetCard
       title="Market News"
-      subtitle="headlines"
+      subtitle="headlines · sentiment"
       className="col-span-full"
     >
       {articles.length === 0 ? (
@@ -28,8 +51,11 @@ export function MarketNewsWidget({ articles }: { articles: NewsArticle[] }) {
               >
                 {a.title}
               </a>
-              <span className="shrink-0 font-mono text-[11px] text-muted-foreground/60">
-                {a.source} · {a.publishedAt.slice(0, 10)}
+              <span className="flex shrink-0 items-baseline gap-2">
+                <SentimentTag score={a.sentiment} />
+                <span className="font-mono text-[11px] text-muted-foreground/60">
+                  {a.source} · {a.publishedAt.slice(0, 10)}
+                </span>
               </span>
             </li>
           ))}

@@ -79,4 +79,10 @@ export type NewsArticle = {
   url: string;
   publishedAt: string;
   summary: string | null;
+  /**
+   * Aggregate sentiment across the entities the article mentions, roughly
+   * -1 (bearish) … +1 (bullish). Null when the provider tagged no scored
+   * entities.
+   */
+  sentiment: number | null;
 };

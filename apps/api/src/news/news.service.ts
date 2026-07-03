@@ -1,29 +1,25 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import type { NewsArticle } from "@repo/shared";
 
-import { FinnhubNewsClient } from "./finnhub-news.client";
 import { MarketauxClient } from "./marketaux.client";
 
 type Cached = { data: NewsArticle[]; at: number };
 
 /**
- * Market-news lookups for the finance surface. Hybrid provider split:
- *   - search(query) → Marketaux (fresh keyword search + sentiment-tagged
- *     entities), which has a 100 req/day free cap.
- *   - market()      → Finnhub general news (clean, plentiful headlines, no
- *     per-request cap), reusing the existing FINNHUB_API_KEY.
- * Both paths are cached 30 min (keyed by normalized query) so the public
- * /mcp/finance endpoint can't burn the Marketaux daily quota.
+ * Market-news lookups for the finance surface, served by Marketaux (diverse
+ * sources + per-article sentiment). Results are cached 6h keyed by the
+ * normalized query — the public /mcp/finance endpoint could otherwise burn the
+ * 100 req/day free quota, and market news doesn't move fast enough to need
+ * fresher. On a refresh error we fall back to the last good (even expired)
+ * value so a transient API hiccup never blanks the widget.
  */
 @Injectable()
 export class NewsService {
+  private readonly logger = new Logger(NewsService.name);
   private readonly cache = new Map<string, Cached>();
-  private readonly TTL = 30 * 60 * 1000; // 30 min
+  private readonly TTL = 6 * 60 * 60 * 1000; // 6 hours
 
-  constructor(
-    private readonly marketaux: MarketauxClient,
-    private readonly finnhub: FinnhubNewsClient,
-  ) {}
+  constructor(private readonly marketaux: MarketauxClient) {}
 
   private async cached(
     key: string,
@@ -31,9 +27,19 @@ export class NewsService {
   ): Promise<NewsArticle[]> {
     const hit = this.cache.get(key);
     if (hit && Date.now() - hit.at < this.TTL) return hit.data;
-    const data = await fetcher();
-    this.cache.set(key, { data, at: Date.now() });
-    return data;
+    try {
+      const data = await fetcher();
+      this.cache.set(key, { data, at: Date.now() });
+      return data;
+    } catch (err) {
+      if (hit) {
+        this.logger.warn(
+          `News refresh failed for "${key}" — serving stale cache: ${String(err)}`,
+        );
+        return hit.data;
+      }
+      throw err;
+    }
   }
 
   search(queryRaw: string): Promise<NewsArticle[]> {
@@ -44,6 +50,6 @@ export class NewsService {
   }
 
   market(): Promise<NewsArticle[]> {
-    return this.cached("market", () => this.finnhub.general());
+    return this.cached("market", () => this.marketaux.market());
   }
 }

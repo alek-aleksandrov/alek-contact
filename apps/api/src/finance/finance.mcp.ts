@@ -278,7 +278,19 @@ export function registerFinanceMcp(server: McpServer, deps: FinanceMcpDeps): voi
       }
       const md = articles
         .slice(0, 8)
-        .map((a) => `- **${a.title}** — ${a.source} (${a.publishedAt.slice(0, 10)})\n  ${a.url}`)
+        .map((a) => {
+          const sentiment =
+            a.sentiment === null
+              ? ""
+              : ` · sentiment ${a.sentiment > 0 ? "+" : ""}${a.sentiment} (${
+                  a.sentiment > 0.15
+                    ? "bullish"
+                    : a.sentiment < -0.15
+                      ? "bearish"
+                      : "neutral"
+                })`;
+          return `- **${a.title}** — ${a.source} (${a.publishedAt.slice(0, 10)})${sentiment}\n  ${a.url}`;
+        })
         .join("\n");
       const heading = query ? `News matching "${query}"` : "Top market news";
       return { content: [{ type: "text", text: `# ${heading}\n\n${md}` }] };

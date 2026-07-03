@@ -44,9 +44,13 @@ export async function buildDashboardContext(): Promise<string> {
         "=== RECENT MARKET HEADLINES ===",
         ...headlines
           .slice(0, 5)
-          .map(
-            (a) => `- ${a.title} (${a.source}, ${a.publishedAt.slice(0, 10)})`,
-          ),
+          .map((a) => {
+            const mood =
+              a.sentiment === null
+                ? ""
+                : `, sentiment ${a.sentiment > 0 ? "+" : ""}${a.sentiment}`;
+            return `- ${a.title} (${a.source}, ${a.publishedAt.slice(0, 10)}${mood})`;
+          }),
         "",
       ]
     : [];
