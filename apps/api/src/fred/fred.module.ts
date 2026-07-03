@@ -6,6 +6,6 @@ import { FredIngestService } from "./fred.ingest.service";
 // PrismaModule is @Global, so it's available without importing here.
 @Module({
   providers: [FredClient, FredIngestService],
-  exports: [FredIngestService],
+  exports: [FredIngestService, FredClient],
 })
 export class FredModule {}

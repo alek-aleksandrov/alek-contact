@@ -1,6 +1,6 @@
 import type { SeriesLatest } from "@repo/shared";
 
-import { Sparkline } from "@/components/dashboard/sparkline";
+import { HorizonChart } from "@/components/dashboard/horizon-chart";
 import { StatRow, WidgetCard } from "@/components/dashboard/widget-card";
 import { bySeriesId, fmtNum } from "@/components/dashboard/helpers";
 
@@ -12,7 +12,11 @@ export function MortgageWidget({ series }: { series: SeriesLatest[] }) {
         label="30-year fixed"
         value={m?.latest?.value != null ? `${fmtNum(m.latest.value)}%` : "—"}
       />
-      {m ? <Sparkline data={m.spark} /> : null}
+      {m ? (
+        <div className="mt-1">
+          <HorizonChart seriesId="MORTGAGE30US" initial={m.spark} />
+        </div>
+      ) : null}
     </WidgetCard>
   );
 }

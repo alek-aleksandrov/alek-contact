@@ -55,3 +55,20 @@ export type Snapshot = {
   quotes: QuoteWire[];
   asOf: string;
 };
+
+/** A live, on-demand FRED series lookup (any series id, latest value only). */
+export type LiveIndicator = {
+  id: string;
+  label: string;
+  units: string;
+  latest: ObservationWire | null;
+};
+
+/** A market news article (from a news search). */
+export type NewsArticle = {
+  title: string;
+  source: string;
+  url: string;
+  publishedAt: string;
+  summary: string | null;
+};

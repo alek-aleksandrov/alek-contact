@@ -25,6 +25,8 @@ export const site = {
   location: "Las Vegas, NV",
   // Public URL of the "Ask About Alek" MCP server (the /mcp route handler).
   mcpUrl: "https://alek-contact.com/mcp",
+  // Public source repository for this portfolio.
+  repoUrl: "https://github.com/alek-aleksandrov/nextjs-boilerplate",
 
   links: [
     { label: "Resume", href: "/alek-resume.pdf", icon: "file-text", external: true },

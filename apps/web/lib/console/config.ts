@@ -6,7 +6,7 @@ export type ChatMessage = {
 };
 
 /** Hard cap on a single user question (chars). Bounds cost + abuse. */
-export const MAX_INPUT_CHARS = 500;
+export const MAX_INPUT_CHARS = 800;
 
 /** Seed questions shown as clickable chips inside the console. */
 export const SUGGESTED_QUESTIONS = [

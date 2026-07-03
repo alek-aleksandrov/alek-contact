@@ -63,20 +63,26 @@ export class FinanceService {
 
   async getObservations(
     id: string,
-    limit = 120,
+    opts: { limit?: number; from?: Date; maxPoints?: number } = {},
   ): Promise<{ id: string; observations: ObservationWire[] }> {
-    const obs = await this.prisma.fredObservation.findMany({
-      where: { seriesId: id },
-      orderBy: { date: "desc" },
-      take: limit,
+    const hasRange = opts.from != null;
+    // Range view = chronological (for charts); default view = recent-first (for MCP).
+    const take = hasRange ? undefined : (opts.limit ?? 120);
+    const rows = await this.prisma.fredObservation.findMany({
+      where: { seriesId: id, ...(opts.from ? { date: { gte: opts.from } } : {}) },
+      orderBy: { date: hasRange ? "asc" : "desc" },
+      ...(take ? { take } : {}),
     });
-    return {
-      id,
-      observations: obs.map((o) => ({
-        date: o.date.toISOString(),
-        value: num(o.value),
-      })),
-    };
+    let observations = rows.map((o) => ({
+      date: o.date.toISOString(),
+      value: num(o.value),
+    }));
+    // Downsample dense ranges (e.g. 5Y of daily data) to keep payload + sparkline light.
+    if (opts.maxPoints && observations.length > opts.maxPoints) {
+      const step = Math.ceil(observations.length / opts.maxPoints);
+      observations = observations.filter((_, i) => i % step === 0);
+    }
+    return { id, observations };
   }
 
   async getQuotes(): Promise<QuoteWire[]> {

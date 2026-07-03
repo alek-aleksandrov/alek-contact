@@ -1,6 +1,6 @@
 import type { SeriesLatest } from "@repo/shared";
 
-import { Sparkline } from "@/components/dashboard/sparkline";
+import { HorizonChart } from "@/components/dashboard/horizon-chart";
 import { StatRow, WidgetCard } from "@/components/dashboard/widget-card";
 import { bySeriesId, fmtNum } from "@/components/dashboard/helpers";
 
@@ -38,7 +38,9 @@ export function RatesWidget({ series }: { series: SeriesLatest[] }) {
             accent={inverted ? "down" : "up"}
             hint={inverted ? "inverted" : "normal"}
           />
-          <Sparkline data={spread.spark} className="mt-2" />
+          <div className="mt-3">
+            <HorizonChart seriesId="T10Y2Y" initial={spread.spark} />
+          </div>
         </div>
       ) : null}
     </WidgetCard>

@@ -6,7 +6,7 @@
 
 import type { SeriesLatest } from "@repo/shared";
 
-import { getSnapshot } from "@/lib/finance/api";
+import { getSnapshot, searchNews } from "@/lib/finance/api";
 
 function seriesLine(s: SeriesLatest): string {
   const date = s.latest?.date?.slice(0, 10) ?? "n/a";
@@ -16,7 +16,10 @@ function seriesLine(s: SeriesLatest): string {
 
 /** Compact markdown snapshot of the current numbers (a few KB — no RAG). */
 export async function buildDashboardContext(): Promise<string> {
-  const snap = await getSnapshot();
+  const [snap, headlines] = await Promise.all([
+    getSnapshot(),
+    searchNews().catch(() => []),
+  ]);
   const macro = snap.series.map(seriesLine).join("\n");
   const movers = [...snap.quotes]
     .sort((a, b) => b.changePercent - a.changePercent)
@@ -36,6 +39,18 @@ export async function buildDashboardContext(): Promise<string> {
     );
   }
 
+  const newsSection = headlines.length
+    ? [
+        "=== RECENT MARKET HEADLINES ===",
+        ...headlines
+          .slice(0, 5)
+          .map(
+            (a) => `- ${a.title} (${a.source}, ${a.publishedAt.slice(0, 10)})`,
+          ),
+        "",
+      ]
+    : [];
+
   return [
     "=== CURRENT MACRO INDICATORS (FRED) ===",
     macro,
@@ -44,6 +59,7 @@ export async function buildDashboardContext(): Promise<string> {
     movers,
     "",
     ...(signals.length ? ["=== DERIVED SIGNALS (authoritative) ===", ...signals, ""] : []),
+    ...newsSection,
     `Data as of ${snap.asOf}.`,
   ].join("\n");
 }

@@ -100,7 +100,7 @@ export const projects: Project[] = [
     tagline: "One screen for the market data I check every day.",
     description:
       "A personal dashboard that pulls together the financial data I look at most — prices, movers, and the metrics that actually inform decisions — into a single fast, glanceable view. Built as a full-stack app: a Next.js front end talking to a Nest.js API that ingests and caches market data in a relational database.",
-    status: "in-progress",
+    status: "live",
     stack: ["Next.js", "React", "Nest.js", "PostgreSQL", "TypeScript"],
     highlights: [
       "Nest.js service layer ingesting and normalizing data from market APIs",
@@ -129,8 +129,13 @@ export const projects: Project[] = [
     ],
     year: 2026,
     featured: true,
-    links: [{ label: "Live", href: "/" }],
-    // TODO: add the GitHub repo link once pushed.
+    links: [
+      { label: "Live", href: "/" },
+      {
+        label: "Code",
+        href: "https://github.com/alek-aleksandrov/nextjs-boilerplate",
+      },
+    ],
   },
   {
     slug: "ask-about-alek",

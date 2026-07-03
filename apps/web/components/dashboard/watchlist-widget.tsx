@@ -48,8 +48,8 @@ export function WatchlistWidget({ initial }: { initial: QuoteWire[] }) {
   const sorted = [...quotes].sort((a, b) => b.changePercent - a.changePercent);
 
   return (
-    <WidgetCard title="Watchlist" subtitle="day movers" className="sm:col-span-2 lg:col-span-1">
-      <div className="max-h-72 space-y-1.5 overflow-y-auto pr-1">
+    <WidgetCard title="Watchlist" subtitle="day movers">
+      <div className="max-h-72 space-y-1.5 overflow-y-auto pr-1 [scrollbar-color:var(--color-border)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:w-1.5">
         {sorted.map((q) => (
           <div
             key={q.symbol}

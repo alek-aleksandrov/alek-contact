@@ -7,7 +7,12 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
-import { getQuotes } from "@/lib/finance/api";
+import {
+  getLiveIndicator,
+  getLiveQuote,
+  getQuotes,
+  searchNews,
+} from "@/lib/finance/api";
 import {
   renderInflation,
   renderLabor,
@@ -112,21 +117,24 @@ export function registerFinance(server: McpServer): void {
     "get_quote",
     {
       title: "Get Quote",
-      description: "Latest quote for one watchlist symbol (e.g. AAPL).",
+      description:
+        "Live quote for ANY US equity ticker (e.g. AAPL, TSLA, DIS) — not just the watchlist.",
       inputSchema: {
-        symbol: z.string().min(1).describe("Ticker symbol, e.g. \"AAPL\"."),
+        symbol: z
+          .string()
+          .min(1)
+          .describe('Ticker symbol, e.g. "AAPL" or "TSLA".'),
       },
-      annotations: { readOnlyHint: true, openWorldHint: false },
+      annotations: { readOnlyHint: true, openWorldHint: true },
     },
     async ({ symbol }) => {
-      const quotes = await getQuotes();
-      const q = quotes.find((x) => x.symbol.toUpperCase() === symbol.toUpperCase());
+      const q = await getLiveQuote(symbol);
       if (!q) {
         return {
           content: [
             {
               type: "text",
-              text: `No quote for "${symbol}". Only watchlist symbols are tracked (see finance://market/watchlist).`,
+              text: `No live quote for "${symbol}" — it may be invalid or unsupported on the free tier.`,
             },
           ],
         };
@@ -136,10 +144,88 @@ export function registerFinance(server: McpServer): void {
         content: [
           {
             type: "text",
-            text: `**${q.symbol}**: $${q.price.toFixed(2)} (${sign}${q.changePercent.toFixed(2)}%)`,
+            text: `**${q.symbol}**: $${q.price.toFixed(2)} (${sign}${q.changePercent.toFixed(2)}%) — as of ${q.fetchedAt}`,
           },
         ],
       };
+    },
+  );
+
+  server.registerTool(
+    "get_indicator",
+    {
+      title: "Get Economic Indicator",
+      description:
+        "Live latest value of ANY FRED economic series by id (e.g. MORTGAGE30US, DGS10, GDPC1, DEXUSEU) — not just the ones on the dashboard.",
+      inputSchema: {
+        series_id: z
+          .string()
+          .min(1)
+          .describe('FRED series id, e.g. "MORTGAGE30US" or "DGS10".'),
+      },
+      annotations: { readOnlyHint: true, openWorldHint: true },
+    },
+    async ({ series_id }) => {
+      const ind = await getLiveIndicator(series_id);
+      if (!ind) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `No FRED series "${series_id}". Browse ids at fred.stlouisfed.org.`,
+            },
+          ],
+        };
+      }
+      const when = ind.latest ? ` — as of ${ind.latest.date.slice(0, 10)}` : "";
+      return {
+        content: [
+          {
+            type: "text",
+            text: `**${ind.label}** (${ind.id}): ${ind.latest?.value ?? "n/a"} ${ind.units}${when}`,
+          },
+        ],
+      };
+    },
+  );
+
+  server.registerTool(
+    "search_news",
+    {
+      title: "Search Market News",
+      description:
+        "Search recent market/financial news by keyword (e.g. \"Nvidia earnings\", \"oil prices\", \"Fed rate decision\"). Omit the query for top business headlines.",
+      inputSchema: {
+        query: z
+          .string()
+          .optional()
+          .describe("Keyword(s) to search; omit for top market headlines."),
+      },
+      annotations: { readOnlyHint: true, openWorldHint: true },
+    },
+    async ({ query }) => {
+      const articles = await searchNews(query);
+      if (articles.length === 0) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: query
+                ? `No recent news found for "${query}".`
+                : "No market headlines available right now.",
+            },
+          ],
+        };
+      }
+      const md = articles
+        .slice(0, 8)
+        .map(
+          (a) =>
+            `- **${a.title}** — ${a.source} (${a.publishedAt.slice(0, 10)})\n  ${a.url}`,
+        )
+        .join("\n");
+      const heading = query ? `News matching “${query}”` : "Top market news";
+      return { content: [{ type: "text", text: `# ${heading}\n\n${md}` }] };
     },
   );
 
