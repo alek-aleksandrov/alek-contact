@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Application Denied</title>
+<link rel="stylesheet" href="/game/style.css">
+</head>
+<body>
+<div class="desktop">
+  <div class="window">
+    <div class="titlebar">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="title">JobHunt Pro™ — Inbox</span>
+      <span class="score">Score: <b id="score">0</b></span>
+    </div>
+    <div class="workspace">
+      <aside class="sidebar">
+        <div class="nav active">📥 Inbox</div>
+        <div class="nav">📤 Sent</div>
+        <div class="nav">👻 Ghosted</div>
+        <div class="nav">🗑️ Rejected</div>
+      </aside>
+      <main class="stage">
+        <canvas id="game" width="600" height="600"></canvas>
+        <div id="overlay" class="overlay">
+          <div class="card">
+            <h1>Application Denied</h1>
+            <p>Eat job applications 📄 to grow your hunt. Dodge recruiter spam 📨.</p>
+            <p class="hint">Arrow keys / WASD to move · Space to start · Swipe on mobile</p>
+            <button id="startBtn">Start Applying</button>
+          </div>
+        </div>
+        <div id="gameover" class="overlay hidden">
+          <div class="card letter">
+            <h1>Application Denied</h1>
+            <p>Dear candidate,</p>
+            <p>After careful consideration, we regret to inform you that your
+               job hunt has ended.</p>
+            <p><b>Final score: <span id="finalScore">0</span></b></p>
+            <button id="againBtn">Apply Again</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="toasts" class="toasts"></div>
+</div>
+
+<script src="/game/wasm_exec.js"></script>
+<script src="/game/toast.js"></script>
+<script src="/game/input.js"></script>
+<script>
+  window.onGameOver = (score) => {
+    document.getElementById("finalScore").textContent = score;
+    document.getElementById("gameover").classList.remove("hidden");
+  };
+  document.getElementById("againBtn").addEventListener("click", () => {
+    if (window.goStart) { window.goStart(); window.hideOverlays(); }
+  });
+
+  const go = new Go();
+  WebAssembly.instantiateStreaming(fetch("/game/main.wasm"), go.importObject)
+    .then((result) => { go.run(result.instance); })
+    .catch((err) => console.error("WASM load failed:", err));
+</script>
+<a data-back-to-portfolio href="/projects/application-denied" style="position:fixed;bottom:14px;left:14px;z-index:9999;font:600 12px system-ui,-apple-system,sans-serif;color:#fff;background:rgba(20,20,22,.72);padding:7px 13px;border-radius:9px;text-decoration:none;backdrop-filter:blur(6px)">← Back to project</a>
+</body>
+</html>

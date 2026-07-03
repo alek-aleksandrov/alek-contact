@@ -36,9 +36,12 @@ export function HorizonChart({
       .then((r) => (r.ok ? r.json() : null))
       .then((d: { observations?: ObservationWire[] } | null) => {
         if (!alive || !d?.observations) return;
-        const pts = d.observations.filter(
-          (o): o is { date: string; value: number } => o.value != null,
-        );
+        // Sort chronologically: the API returns descending order for the
+        // "Max" horizon (no `from`), which would otherwise reverse the line and
+        // the x-axis date labels. ISO date strings sort lexicographically.
+        const pts = d.observations
+          .filter((o): o is { date: string; value: number } => o.value != null)
+          .sort((a, b) => a.date.localeCompare(b.date));
         if (pts.length > 1) {
           setValues(pts.map((p) => p.value));
           setDates(pts.map((p) => p.date));

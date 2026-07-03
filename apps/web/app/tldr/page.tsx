@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "tl;dr",
   description:
-    "Too busy to read a résumé? Same. Ask a live model about me right here — it runs in your browser, on my dime, or connect the MCP server yourself.",
+    "Too busy to read a résumé? Same. Ask a live model about me right here — it runs on my dime, or connect the MCP server yourself.",
 };
 
 const mcpJson = `{
@@ -41,9 +41,8 @@ export default function TldrPage() {
         Too busy to read a résumé? Same.
       </h1>
       <p className="mt-5 max-w-2xl text-lg text-pretty text-muted-foreground">
-        So I turned myself into a model you can interrogate. Ask away below — on a
-        capable desktop it runs 100% in your browser; everywhere else it answers
-        on a free model I&apos;m footing the bill for. Either way it only knows the
+        So I turned myself into a model you can interrogate. Ask away below — it
+        answers on a free model I&apos;m footing the bill for, and only knows the
         truth, straight from my profile.
       </p>
 

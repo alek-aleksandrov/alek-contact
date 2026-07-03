@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname, "..", ".."),
   },
+  // Serve the vendored WASM game (public/game/index.html) at a clean /game URL.
+  async rewrites() {
+    return [{ source: "/game", destination: "/game/index.html" }];
+  },
 };
 
 export default nextConfig;

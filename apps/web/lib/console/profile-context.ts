@@ -1,7 +1,7 @@
 /**
- * Builds the grounding system prompt shared by both answer engines (WebLLM in
- * the browser and the hosted /api/ask proxy). All content comes from the same
- * render functions that power the MCP server — single source of truth.
+ * Builds the grounding system prompt for the hosted answer engine (the
+ * /api/ask Ollama proxy). All content comes from the same render functions
+ * that power the MCP server — single source of truth.
  */
 
 import {

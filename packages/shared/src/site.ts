@@ -23,10 +23,10 @@ export const site = {
   resumeUrl: "/alek-resume.pdf",
   email: "alek.aleksandrov@proton.me",
   location: "Las Vegas, NV",
-  // Public URL of the "Ask About Alek" MCP server (Nest API, /mcp/ask).
-  mcpUrl: "https://api.alek-contact.com/mcp/ask",
-  // Public URL of the finance MCP server (Nest API, /mcp/finance).
-  financeMcpUrl: "https://api.alek-contact.com/mcp/finance",
+  // Public URL of the "Ask About Alek" MCP server (Nest API on Railway).
+  mcpUrl: "https://api-production-c312.up.railway.app/mcp/ask",
+  // Public URL of the finance MCP server (Nest API on Railway).
+  financeMcpUrl: "https://api-production-c312.up.railway.app/mcp/finance",
   // Public source repository for this portfolio.
   repoUrl: "https://github.com/alek-aleksandrov/alek-contact",
 

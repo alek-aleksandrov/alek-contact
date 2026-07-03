@@ -52,6 +52,27 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "application-denied",
+    title: "Application Denied",
+    tagline:
+      "Snake, but you're a job-seeker eating job applications — compiled from Go to WebAssembly.",
+    description:
+      "A browser game where you play a job-seeker growing your hunt by eating job applications and dodging recruiter spam — all inside a fake corporate desktop (\"JobHunt Pro™\"). Written in Go and compiled to WebAssembly: a pure-logic game core with unit tests drives a canvas renderer through a fixed-timestep loop, wired to the browser via Go's syscall/js interop.",
+    status: "live",
+    stack: ["Go", "WebAssembly", "Canvas", "HTML"],
+    highlights: [
+      "Pure-logic game core (board, food, collision, scoring) covered by Go unit tests",
+      "Compiled Go → WebAssembly, driving an HTML canvas via syscall/js interop",
+      "Fixed-timestep game loop with catch-up ticks for frame-rate independence",
+      "Themed as a fake corporate desktop — a wink at the job hunt",
+    ],
+    year: 2026,
+    featured: true,
+    // Card + detail-page CTA funnel to the live game (served static from /public).
+    href: "/game",
+    sourceHref: "https://github.com/alek-aleksandrov/applications-denied",
+  },
+  {
     slug: "claude-code-toolkit",
     title: "Claude Code Toolkit",
     tagline:
@@ -129,11 +150,19 @@ export const projects: Project[] = [
     description:
       "A content-driven portfolio built on the latest Next.js App Router. Pages render from typed content modules, dark mode follows your OS with zero JavaScript, and subtle motion brings sections in as you scroll. Deployed on Vercel.",
     status: "live",
-    stack: ["Next.js 16", "React 19", "Tailwind CSS v4", "shadcn/ui", "Motion"],
+    stack: [
+      "Next.js 16",
+      "React 19",
+      "Tailwind CSS v4",
+      "Motion",
+      "Vitest",
+      "GitHub Actions",
+    ],
     highlights: [
       "Typed content modules — add a project by editing one object",
       "System-preference dark mode via pure CSS (no theme flash)",
       "Statically generated project pages with per-project metadata",
+      "Unit + component tests (Vitest) run in CI — GitHub Actions checks lint, tests, and build on every push and PR",
     ],
     year: 2026,
     featured: true,
