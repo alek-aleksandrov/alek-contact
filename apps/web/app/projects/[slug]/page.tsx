@@ -97,6 +97,19 @@ export default async function ProjectPage({
         </div>
       </div>
 
+      {project.install ? (
+        <div className="mt-10">
+          <h2 className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            Install
+          </h2>
+          <pre className="mt-4 overflow-x-auto rounded-md bg-muted p-4 text-sm">
+            <code className="font-mono text-foreground/90">
+              {project.install}
+            </code>
+          </pre>
+        </div>
+      ) : null}
+
       <div className="mt-12 border-t border-border/60 pt-8">
         {project.href ? (
           <Link
