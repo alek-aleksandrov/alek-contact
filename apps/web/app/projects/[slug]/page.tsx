@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
+import { Breadcrumb } from "@/components/breadcrumb";
 import { GithubIcon } from "@/components/brand-icons";
 import { statusLabel, statusVariant } from "@/components/project-card";
 import { Container } from "@/components/section";
@@ -42,13 +43,12 @@ export default async function ProjectPage({
 
   return (
     <Container className="max-w-3xl py-16 sm:py-24">
-      <Link
-        href="/projects"
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-      >
-        <ArrowLeft className="size-4" />
-        All projects
-      </Link>
+      <Breadcrumb
+        items={[
+          { label: "Projects", href: "/projects" },
+          { label: project.title },
+        ]}
+      />
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <Badge variant={statusVariant[project.status]}>

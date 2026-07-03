@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { Breadcrumb } from "@/components/breadcrumb";
 import { MultiAgentRunner } from "@/components/agents/multi-agent-runner";
 import { Section } from "@/components/section";
 
@@ -14,6 +15,12 @@ export const metadata: Metadata = {
 export default function MultiAgentPage() {
   return (
     <Section>
+      <Breadcrumb
+        items={[
+          { label: "Projects", href: "/projects" },
+          { label: "Multi-Agent Visualizer" },
+        ]}
+      />
       <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
         Multi-Agent
       </p>

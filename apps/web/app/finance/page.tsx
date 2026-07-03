@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { Breadcrumb } from "@/components/breadcrumb";
 import { Section } from "@/components/section";
 import { FloatingConsole } from "@/components/console/floating-console";
 import { GrowthWidget } from "@/components/dashboard/growth-widget";
@@ -39,6 +40,12 @@ export default async function FinancePage() {
 
   return (
     <Section>
+      <Breadcrumb
+        items={[
+          { label: "Projects", href: "/projects" },
+          { label: "Financial Dashboard" },
+        ]}
+      />
       {/* Hero */}
       <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
         Financial Dashboard

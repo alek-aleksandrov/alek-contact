@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Copy, FileText } from "lucide-react";
 
 import { AskConsole } from "@/components/console/ask-console";
+import { Breadcrumb } from "@/components/breadcrumb";
 import { CopyButton } from "@/components/copy-button";
 import { Section } from "@/components/section";
 import { buttonVariants } from "@/components/ui/button";
@@ -26,6 +27,12 @@ const mcpJson = `{
 export default function TldrPage() {
   return (
     <Section>
+      <Breadcrumb
+        items={[
+          { label: "Projects", href: "/projects" },
+          { label: "tl;dr" },
+        ]}
+      />
       {/* Hero */}
       <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
         TL;DR
