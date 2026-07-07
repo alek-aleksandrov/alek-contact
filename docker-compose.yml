@@ -1,7 +1,8 @@
 # Local Postgres for development. Neon is used in the cloud (see docs/specs).
+# Image includes pgvector (needed for Market Fit job-market RAG embeddings).
 services:
   db:
-    image: postgres:16
+    image: pgvector/pgvector:pg16
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres

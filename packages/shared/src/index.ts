@@ -11,6 +11,7 @@ export * from "./experience";
 export * from "./projects";
 export * from "./profile-render";
 export * from "./profile-search";
+export * from "./jobs";
 
 /** An item as returned by the API (dates serialized as ISO strings over the wire). */
 export type Item = {

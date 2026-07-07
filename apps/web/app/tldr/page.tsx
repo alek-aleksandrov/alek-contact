@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "tl;dr",
   description:
-    "Too busy to read a résumé? Same. Ask a live model about me right here — it runs on my dime, or connect the MCP server yourself.",
+    "Too busy to read a résumé? Same. Ask a live model about me right here. It runs on my dime, or connect the MCP server yourself.",
 };
 
 const mcpJson = `{
@@ -41,7 +41,7 @@ export default function TldrPage() {
         Too busy to read a résumé? Same.
       </h1>
       <p className="mt-5 max-w-2xl text-lg text-pretty text-muted-foreground">
-        So I turned myself into a model you can interrogate. Ask away below — it
+        So I turned myself into a model you can interrogate. Ask away below. It
         answers on a free model I&apos;m footing the bill for, and only knows the
         truth, straight from my profile.
       </p>
@@ -125,7 +125,7 @@ export default function TldrPage() {
 
       {/* Wink */}
       <p className="mt-12 max-w-2xl text-sm text-muted-foreground/70 italic">
-        Yes — it&apos;s an MCP server built by someone who builds MCP servers for
+        Yes, it&apos;s an MCP server built by someone who builds MCP servers for
         a living, now with a model bolted on. Meta, I know.{" "}
         <Link
           href="/projects/ask-about-alek"

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "greenhouse:stripe:1000001",
+    "source": "greenhouse",
+    "company": "Stripe",
+    "title": "Senior Software Engineer, Payments Infrastructure",
+    "location": "Remote - US",
+    "url": "https://stripe.com/jobs/listing/senior-software-engineer-payments-infrastructure/1000001",
+    "postedAt": "2026-06-15T00:00:00.000Z",
+    "body": "Design and operate the ledger and settlement pipelines that move billions of dollars across card networks and ACH rails every day. You'll build idempotent APIs, reconcile double-entry ledgers at scale, and harden our payment state machines against partial failures. Strong backend experience with distributed transactions, Postgres, and Ruby or Go is required, and you'll partner with risk and compliance teams on PCI-scoped services."
+  },
+  {
+    "id": "greenhouse:airbnb:1000002",
+    "source": "greenhouse",
+    "company": "Airbnb",
+    "title": "Senior Frontend Engineer, Design Systems",
+    "location": "San Francisco, CA",
+    "url": "https://careers.airbnb.com/positions/senior-frontend-engineer-design-systems/1000002",
+    "postedAt": "2026-06-12T00:00:00.000Z",
+    "body": "Own the component library and design tokens that power every surface in the Airbnb web app, from the search results grid to checkout. You'll build accessible React components in TypeScript, maintain a Storybook-driven documentation site, and collaborate closely with product designers on a Figma-to-code token pipeline. Deep CSS and accessibility (WCAG) expertise plus experience scaling a design system across dozens of product teams is expected."
+  },
+  {
+    "id": "greenhouse:figma:1000003",
+    "source": "greenhouse",
+    "company": "Figma",
+    "title": "Staff AI Engineer, Generative Design Tools",
+    "location": "Remote - US",
+    "url": "https://www.figma.com/careers/roles/staff-ai-engineer-generative-design-tools/1000003",
+    "postedAt": "2026-06-18T00:00:00.000Z",
+    "body": "Lead the team building generative layout and image-to-design features powered by diffusion and multimodal LLMs. You'll fine-tune and evaluate vision-language models, design prompt and RAG pipelines for design-asset retrieval, and ship low-latency inference behind our canvas rendering engine. Hands-on experience with PyTorch, vector search, and productionizing large models at scale is a must."
+  },
+  {
+    "id": "greenhouse:databricks:1000004",
+    "source": "greenhouse",
+    "company": "Databricks",
+    "title": "Senior Data Engineer, Lakehouse Platform",
+    "location": "Seattle, WA",
+    "url": "https://www.databricks.com/company/careers/senior-data-engineer-lakehouse-platform/1000004",
+    "postedAt": "2026-06-10T00:00:00.000Z",
+    "body": "Build the ingestion and transformation pipelines that keep petabyte-scale Delta Lake tables fresh, correct, and cheap to query. You'll write Spark and SQL jobs orchestrated with Airflow, design schema evolution and partitioning strategies, and add data-quality checks that catch upstream contract breaks before they hit dashboards. Experience with distributed data processing and columnar storage formats like Parquet is required."
+  },
+  {
+    "id": "greenhouse:anthropic:1000005",
+    "source": "greenhouse",
+    "company": "Anthropic",
+    "title": "Senior Site Reliability Engineer, Model Serving",
+    "location": "Remote - US",
+    "url": "https://www.anthropic.com/careers/senior-site-reliability-engineer-model-serving/1000005",
+    "postedAt": "2026-06-20T00:00:00.000Z",
+    "body": "Keep large-scale model inference clusters healthy across multiple cloud regions, running on Kubernetes with GPU-aware autoscaling. You'll own SLOs and on-call for the serving fleet, build Terraform-managed infrastructure, and instrument deep observability with Prometheus and distributed tracing to catch latency regressions before customers do. Strong Linux systems and incident-response experience is expected."
+  },
+  {
+    "id": "lever:gitlab:1000006",
+    "source": "lever",
+    "company": "GitLab",
+    "title": "Staff Security Engineer, Application Security",
+    "location": "Remote - Global",
+    "url": "https://jobs.lever.co/gitlab/staff-security-engineer-application-security/1000006",
+    "postedAt": "2026-06-08T00:00:00.000Z",
+    "body": "Lead application and infrastructure security across our engineering org, driving threat modeling, secure design reviews, and authentication and authorization hardening for internal services. You'll build out our SAST and DAST scanning pipelines, run the vulnerability-management and responsible-disclosure programs, and advance a zero-trust architecture with tight secrets management via Vault. Deep experience with appsec, incident response, and secure-by-default engineering practices is required."
+  },
+  {
+    "id": "lever:netlify:1000007",
+    "source": "lever",
+    "company": "Netlify",
+    "title": "Staff Software Engineer, Developer Experience",
+    "location": "Remote - Global",
+    "url": "https://jobs.lever.co/netlify/staff-software-engineer-developer-experience/1000007",
+    "postedAt": "2026-06-05T00:00:00.000Z",
+    "body": "Shape the CLI, build plugins, and local dev server that hundreds of thousands of developers use to deploy sites every day. You'll design ergonomic APIs for the Netlify CLI, improve build-cache and incremental-build performance, and write the docs and starter templates that shape a developer's first ten minutes. Deep Node.js tooling experience and a track record of building beloved open-source developer tools is expected."
+  },
+  {
+    "id": "lever:voiceflow:1000008",
+    "source": "lever",
+    "company": "Voiceflow",
+    "title": "Senior Full-Stack Engineer, Web Platform",
+    "location": "Toronto, ON",
+    "url": "https://jobs.lever.co/voiceflow/senior-full-stack-engineer-web-platform/1000008",
+    "postedAt": "2026-05-30T00:00:00.000Z",
+    "body": "Build end-to-end features for the drag-and-drop visual editor, from the React front end down to the Node.js services that persist and execute customer workflows. You'll ship real-time collaboration features over WebSockets, design the GraphQL API that powers the visual editor, and build the Postgres-backed persistence layer for saved projects. Comfort owning a feature across the whole stack, from database schema to pixel-perfect UI, is essential."
+  },
+  {
+    "id": "hn:41000009",
+    "source": "hn",
+    "company": "Notion",
+    "title": "Senior iOS Engineer",
+    "location": "San Francisco, CA (Remote OK)",
+    "url": "https://news.ycombinator.com/item?id=41000009",
+    "postedAt": "2026-06-01T00:00:00.000Z",
+    "body": "Notion | Senior iOS Engineer | San Francisco, CA (Remote OK) | Full-time. We're looking for a senior iOS engineer to own performance and offline-sync reliability for the Notion mobile app, written in Swift and SwiftUI with a Core Data-backed local cache. You'll rework our conflict-resolution logic for real-time collaborative editing on flaky mobile networks and drive down cold-start time across the iOS fleet. Strong experience shipping and profiling large native iOS apps required."
+  },
+  {
+    "id": "hn:41000010",
+    "source": "hn",
+    "company": "Cloudflare",
+    "title": "Principal Infrastructure Engineer",
+    "location": "Remote (US/EU)",
+    "url": "https://news.ycombinator.com/item?id=41000010",
+    "postedAt": null,
+    "body": "Cloudflare | Principal Infrastructure Engineer | Remote (US/EU) | Full-time. Lead the design of the bare-metal provisioning and network-fabric automation that brings up new points of presence across our global edge, spanning hundreds of data centers. You'll rearchitect our BGP anycast routing tooling, drive capacity planning across compute and network layers, and mentor a team building the next generation of our internal infrastructure-as-code platform."
+  }
+]

@@ -16,6 +16,15 @@ The frontend is a content-driven portfolio; the backend is a real Nest.js servic
 demonstrating a full-stack slice (see the **/lab** page — a live list served by
 Nest, stored in Postgres, with the `Item` type shared across both sides).
 
+**/market-fit** is a job-market RAG console: the API ingests postings from a few
+sources on a weekly cron, embeds them into pgvector, and answers questions about
+the current market grounded in retrieved postings (with sources shown). The
+corpus round-robins across ~15 companies (Greenhouse, Lever, Hacker News) up to
+a ~500-posting cap, with richer fields per posting (department, commitment,
+workplace, salary, tags) folded into both retrieval and the cited cards. A
+"Gather latest" button on the page triggers an on-demand ingest via
+`POST /api/jobs/refresh`, guarded against overlapping runs and hammering.
+
 ## Quick start
 
 ```bash
@@ -28,6 +37,12 @@ pnpm dev                                       # web :3000  +  api :3001
 ```
 
 Open [localhost:3000](http://localhost:3000) (and `/lab` for the full-stack demo).
+
+The Market Fit console (`/market-fit`) needs two more env vars on the API
+(`apps/api/.env`): `ASK_BASE_URL` and `ASK_API_KEY`, pointing at an
+OpenAI-compatible chat completions endpoint used to generate answers from the
+retrieved job postings. Without them, answer generation fails and the console
+shows a "retrieval unavailable" message.
 
 ## Scripts (run from the repo root)
 

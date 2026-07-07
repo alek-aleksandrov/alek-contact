@@ -8,6 +8,7 @@ import { FredModule } from "./fred/fred.module";
 import { MarketModule } from "./market/market.module";
 import { FinanceModule } from "./finance/finance.module";
 import { McpModule } from "./mcp/mcp.module";
+import { JobsModule } from "./jobs/jobs.module";
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { McpModule } from "./mcp/mcp.module";
     MarketModule,
     FinanceModule,
     McpModule,
+    JobsModule,
   ],
 })
 export class AppModule {}
