@@ -19,7 +19,7 @@ export const site = {
   fullName: "Aleksandar Aleksandrov",
   role: "Senior Software Engineer",
   tagline:
-    "I work where AI orchestration meets full-stack product development — bridging enterprise systems with AI-native tooling on Amazon Bedrock and MCP. Angular by day; the projects here are where I explore new stacks.",
+    "I'm a full-stack engineer who connects enterprise systems to LLM tooling: MCP servers and middleware for Amazon Bedrock agents. Angular by day; the projects here are where I explore new stacks.",
   resumeUrl: "/alek-resume.pdf",
   email: "alek.aleksandrov@proton.me",
   location: "Las Vegas, NV",

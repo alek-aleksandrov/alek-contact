@@ -60,3 +60,25 @@ model Quote {
   fetchedAt     DateTime
   instrument    Instrument @relation(fields: [symbol], references: [symbol], onDelete: Cascade)
 }
+
+// ---- Market Fit (job-market RAG) -------------------------------------------
+
+model JobPosting {
+  id        String   @id            // `${source}:${externalId}`
+  source    String                  // "greenhouse" | "lever" | "hn"
+  company   String
+  title     String
+  location  String
+  url       String
+  postedAt  DateTime?
+  body      String
+  indexedAt DateTime @default(now())
+
+  department String?
+  commitment String?
+  workplace  String?
+  salary     String?
+  tags       String[] @default([])
+
+  @@index([source])
+}

@@ -13,12 +13,14 @@
     "db:down": "docker compose down"
   },
   "devDependencies": {
+    "@swc/core": "^1.15.43",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/coverage-v8": "^3.2.6",
     "jsdom": "^25.0.1",
+    "unplugin-swc": "^1.5.9",
     "vitest": "^3.2.6"
   }
 }

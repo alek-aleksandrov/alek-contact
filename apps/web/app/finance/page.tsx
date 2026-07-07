@@ -23,7 +23,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Financial Dashboard",
   description:
-    "Ask an AI about today's macro + market data — Fed rates, inflation, labor, growth, a live equity watchlist, and market news.",
+    "Ask an AI about today's macro + market data: Fed rates, inflation, labor, growth, a live equity watchlist, and market news.",
 };
 
 export default async function FinancePage() {
@@ -55,7 +55,7 @@ export default async function FinancePage() {
       </h1>
       <p className="mt-5 max-w-2xl text-lg text-pretty text-muted-foreground">
         Macro indicators from the Federal Reserve (FRED), a live equity watchlist,
-        and market news — with an AI console that answers straight from the live
+        and market news, with an AI console that answers straight from the live
         numbers. Data as of {asOfLabel} ET.
       </p>
       <Link

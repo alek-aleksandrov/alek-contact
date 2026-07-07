@@ -156,9 +156,9 @@ export function renderTldr(): string {
   return [
     `**${site.fullName}** — ${site.role} (${site.location}).`,
     "",
-    "Works at the intersection of **AI orchestration and full-stack delivery**: " +
-      "builds **MCP servers** and context-provider middleware that bridge legacy " +
-      "REST APIs into **Amazon Bedrock** reasoning loops, and authors Claude Code " +
+    "Works across **AI orchestration and full-stack delivery**: " +
+      "builds **MCP servers** and context-provider middleware that connect legacy " +
+      "REST APIs to **Amazon Bedrock** agents, and authors Claude Code " +
       "skills, plugins, and multi-agent workflows that automate the engineering lifecycle.",
     "",
     "**Headline strengths**",

@@ -9,7 +9,7 @@ import { Section } from "@/components/section";
 export const metadata: Metadata = {
   title: "Multi-Agent Visualizer",
   description:
-    "Watch a research → critique → synthesize agent pipeline run live — three researchers fan out, a critic checks their work, and a synthesizer merges the answer.",
+    "Watch a research → critique → synthesize agent pipeline run live: three researchers fan out, a critic checks their work, and a synthesizer merges the answer.",
 };
 
 export default function MultiAgentPage() {
@@ -28,11 +28,11 @@ export default function MultiAgentPage() {
         Watch a multi-agent pipeline think.
       </h1>
       <p className="mt-5 max-w-2xl text-lg text-pretty text-muted-foreground">
-        Ask a question worth debating. Three researcher agents fan out in parallel —
-        optimist, skeptic, pragmatist — an adversarial critic checks their work and
+        Ask a question worth debating. Three researcher agents fan out in parallel
+        (optimist, skeptic, pragmatist), an adversarial critic checks their work and
         returns a verdict, and a synthesizer merges it into a final answer. It&apos;s
-        all live: real LLM calls on a free model, so your click spends my tokens —
-        keep it to a question or two.
+        all live: LLM calls on a free model, so your click spends my tokens. Keep it
+        to a question or two.
       </p>
 
       <MultiAgentRunner />
@@ -62,7 +62,7 @@ export default function MultiAgentPage() {
             <p className="font-heading text-sm font-medium">3 · Synthesis</p>
             <p className="mt-2 text-sm text-muted-foreground">
               A synthesizer folds the notes and the critique into one balanced,
-              decisive answer — the orchestration pattern I build day to day.
+              decisive answer. It&apos;s the orchestration pattern I build every day.
             </p>
           </div>
         </div>

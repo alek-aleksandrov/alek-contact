@@ -23,7 +23,7 @@ export const experience: Experience[] = [
     end: "Present",
     location: "Remote",
     summary:
-      "Full-stack contributor and product advocate at the intersection of AI orchestration and modern delivery on a productivity SaaS platform — bridging legacy enterprise systems with AI-native tooling, owning hybrid mobile, and pairing high-scale refactoring with a user-first engineering philosophy.",
+      "Full-stack engineer on a productivity SaaS platform, working across AI orchestration and product delivery. I connect legacy enterprise systems to LLM tooling, own the hybrid mobile app, and take on large refactors, always with an eye on the people who use what we build.",
     highlights: [
       "Built MCP servers and context-provider middleware that bridge legacy REST APIs into Amazon Bedrock reasoning loops, exposing internal data and tools to LLM agents.",
       "Shipped the client and operation-handling layer for Maz, a conversational scorecard optimizer on Bedrock, with a propose-approve-apply loop keeping multi-step edits coherent.",
@@ -31,6 +31,8 @@ export const experience: Experience[] = [
       "Spearheaded a hybrid mobile app with Ionic/Capacitor, establishing the CI/CD pipeline and team contribution standards.",
       "Refactored legacy state into NgRx within an NX monorepo and added distributed tracing to backend KPI scoring; resolved customer-reported production defects through deployment.",
       "Improved developer experience with API context providers and internal tooling that make AI-native features easier to build and maintain, and served as the primary mentor for the hybrid mobile stack.",
+      "Built a role-based visibility model for the People Analyzer peer-review tool from stakeholder confidentiality rules: owner, manager, and employee scopes, a read-only share flow, and confidential PIP review states.",
+      "Shipped features across the whole stack, including a color-mode accessibility setting that spanned an Angular preference UI, a backend user-schema change, a data backfill migration, and server-side PDF rendering.",
     ],
     tech: [
       "Amazon Bedrock",
@@ -50,7 +52,7 @@ export const experience: Experience[] = [
     end: "Oct 2023",
     location: "Henderson, NV",
     summary:
-      "Modernized a legal eDiscovery platform — porting complex legacy tools to Angular micro frontends while preserving established workflows.",
+      "Modernized a legal eDiscovery platform, porting complex legacy tools to Angular micro frontends while preserving established workflows.",
     highlights: [
       "Ported 4 complex legacy eDiscovery tools to Angular micro frontends within a shared monorepo.",
       "Built the unit and E2E test suites that made continuous deployment of the migrated frontends safe, using legacy behavior as the spec.",
@@ -81,17 +83,27 @@ export const skills: { group: string; items: string[] }[] = [
     items: [
       "Angular",
       "React",
+      "Vue.js",
       "Next.js",
       "TypeScript",
       "NgRx",
       "RxJS",
+      "Web Components",
+      "Angular Material",
       "Ionic/Capacitor",
+      "Storybook",
       "SCSS",
     ],
   },
   {
     group: "AI & Orchestration",
-    items: ["Amazon Bedrock", "MCP", "Prompt Engineering", "AI Orchestration"],
+    items: [
+      "Amazon Bedrock",
+      "MCP",
+      "Agentic Engineering",
+      "Prompt Engineering",
+      "AI Orchestration",
+    ],
   },
   {
     group: "Backend & DevOps",
@@ -103,6 +115,8 @@ export const skills: { group: string; items: string[] }[] = [
       "MongoDB",
       "NX Monorepo",
       "CI/CD",
+      "REST",
+      "Git",
     ],
   },
   {
@@ -112,7 +126,7 @@ export const skills: { group: string; items: string[] }[] = [
 ];
 
 export const bio =
-  "I'm a Senior Software Engineer at Ninety, working where AI orchestration meets full-stack product development. I build systems that bridge legacy enterprise architectures with AI-native tooling — MCP servers and context middleware feeding Amazon Bedrock reasoning loops — alongside hybrid mobile apps and modern Angular frontend architecture. I care about product observability and end-user advocacy. Angular is my daily driver; the projects on this site are where I stretch into new stacks like Next.js and MCP.";
+  "I'm a Senior Software Engineer at Ninety, working across AI orchestration and full-stack product development. I build the layer that connects our legacy enterprise systems to LLM tooling: MCP servers and context middleware that feed internal data into Amazon Bedrock agents, plus hybrid mobile apps and Angular frontends. I care about product observability and keeping the end user in view. Angular is my daily driver; the projects on this site are where I stretch into new stacks like Next.js and MCP.";
 
 /** Colleague recommendations (from LinkedIn). */
 export type Recommendation = {

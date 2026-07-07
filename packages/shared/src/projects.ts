@@ -55,16 +55,16 @@ export const projects: Project[] = [
     slug: "application-denied",
     title: "Application Denied",
     tagline:
-      "Snake, but you're a job-seeker eating job applications — compiled from Go to WebAssembly.",
+      "Snake, but you're a job-seeker eating job applications, compiled from Go to WebAssembly.",
     description:
-      "A browser game where you play a job-seeker growing your hunt by eating job applications and dodging recruiter spam — all inside a fake corporate desktop (\"JobHunt Pro™\"). Written in Go and compiled to WebAssembly: a pure-logic game core with unit tests drives a canvas renderer through a fixed-timestep loop, wired to the browser via Go's syscall/js interop.",
+      "A browser game where you play a job-seeker growing your hunt by eating job applications and dodging recruiter spam, all inside a fake corporate desktop (\"JobHunt Pro™\"). Written in Go and compiled to WebAssembly: a pure-logic game core with unit tests drives a canvas renderer through a fixed-timestep loop, wired to the browser via Go's syscall/js interop.",
     status: "live",
     stack: ["Go", "WebAssembly", "Canvas", "HTML"],
     highlights: [
       "Pure-logic game core (board, food, collision, scoring) covered by Go unit tests",
       "Compiled Go → WebAssembly, driving an HTML canvas via syscall/js interop",
       "Fixed-timestep game loop with catch-up ticks for frame-rate independence",
-      "Themed as a fake corporate desktop — a wink at the job hunt",
+      "Themed as a fake corporate desktop, poking fun at the job hunt",
     ],
     year: 2026,
     featured: true,
@@ -78,7 +78,7 @@ export const projects: Project[] = [
     tagline:
       "My custom Claude Code agents + commands, packaged as an installable plugin.",
     description:
-      "A public Claude Code plugin that bundles the agents and slash-commands I actually use day to day into one install. It spans the whole engineering lifecycle — opening PRs, reviewing diffs for security and performance, running multi-session projects, logging sessions, reproducing bugs in a real browser, triaging incidents, and managing Jira — distributed through a Claude Code marketplace so anyone can add it in two commands.",
+      "A public Claude Code plugin that bundles the agents and slash-commands I use every day into one install. It spans the whole engineering lifecycle: opening PRs, reviewing diffs for security and performance, running multi-session projects, logging sessions, reproducing bugs in the browser, triaging incidents, and managing Jira, all distributed through a Claude Code marketplace so anyone can add it in two commands.",
     status: "live",
     stack: ["Claude Code", "Plugins", "Markdown", "YAML", "Agents"],
     highlights: [
@@ -108,7 +108,7 @@ export const projects: Project[] = [
     title: "Multi-Agent Workflow Visualizer",
     tagline: "Watch a research → critique → synthesize agent pipeline run, live.",
     description:
-      "An interactive page where you ask a question and watch a real multi-agent pipeline execute: three researcher agents fan out in parallel (optimist, skeptic, pragmatist), an adversarial critic checks their work and returns a PASS/FAIL verdict, and a synthesizer merges everything into a final answer. Every node animates from live LLM calls — nothing is scripted. It's the AI-orchestration pattern I work with day to day, made visible.",
+      "An interactive page where you ask a question and watch a multi-agent pipeline execute: three researcher agents fan out in parallel (optimist, skeptic, pragmatist), an adversarial critic checks their work and returns a PASS/FAIL verdict, and a synthesizer merges everything into a final answer. Every node animates from live LLM calls, not a scripted demo. It's the orchestration pattern I work with every day, running where you can see it.",
     status: "live",
     stack: ["Next.js", "React 19", "TypeScript", "LLM orchestration", "Streaming"],
     highlights: [
@@ -128,7 +128,7 @@ export const projects: Project[] = [
     title: "Financial Dashboard",
     tagline: "One screen for the market data I check every day.",
     description:
-      "A personal dashboard that pulls together the financial data I look at most — prices, movers, and the metrics that actually inform decisions — into a single fast, glanceable view. Built as a full-stack app: a Next.js front end talking to a Nest.js API that ingests and caches market data in a relational database.",
+      "A personal dashboard that pulls the financial data I look at most into one fast page: prices, movers, and the macro numbers I read them against. Built as a full-stack app, with a Next.js front end talking to a Nest.js API that ingests and caches market data in a relational database.",
     status: "live",
     stack: ["Next.js", "React", "Nest.js", "PostgreSQL", "TypeScript"],
     highlights: [
@@ -146,7 +146,7 @@ export const projects: Project[] = [
   {
     slug: "portfolio-site",
     title: "This Portfolio",
-    tagline: "The site you're on — Next.js 16, React 19, Tailwind v4.",
+    tagline: "The site you're on, built with Next.js 16, React 19, and Tailwind v4.",
     description:
       "A content-driven portfolio built on the latest Next.js App Router. Pages render from typed content modules, dark mode follows your OS with zero JavaScript, and subtle motion brings sections in as you scroll. Deployed on Vercel.",
     status: "live",
@@ -179,7 +179,7 @@ export const projects: Project[] = [
     title: "Ask About Alek",
     tagline: "An MCP endpoint an LLM can query to answer questions about me.",
     description:
-      "A public, shareable endpoint a recruiter can drop into an LLM (Claude, etc.) to ask questions about my background — \"tl;dr about Alek,\" \"does he have production AI experience?\" — answered from a structured profile. Built as an MCP server exposed from this Next.js app: the same AI-orchestration pattern I work with day to day, turned on myself.",
+      "A public, shareable endpoint a recruiter can drop into an LLM (Claude, etc.) to ask questions about my background, answered from a structured profile. Think \"tl;dr about Alek\" or \"does he have production AI experience?\" Built as an MCP server exposed from this Next.js app: the same MCP work I do every day, pointed at my own background.",
     status: "live",
     stack: ["Next.js", "MCP", "TypeScript", "LLM"],
     highlights: [
@@ -193,6 +193,26 @@ export const projects: Project[] = [
     href: "/tldr",
     sourceHref:
       "https://github.com/alek-aleksandrov/alek-contact/tree/main/apps/api/src/mcp",
+  },
+  {
+    slug: "market-fit",
+    title: "Market Fit",
+    tagline: "Ask the engineering job market and get cited answers from real postings.",
+    description:
+      "A retrieval-augmented search over a live corpus of engineering job postings. Ask what companies want and get a concise answer grounded in real listings, with the exact postings it used shown as sources. A scheduled Nest job ingests postings from Greenhouse, Lever, and Hacker News, embeds them locally, and indexes them in pgvector; a LangChain.js pipeline retrieves and answers.",
+    status: "live",
+    stack: ["Next.js", "Nest.js", "LangChain.js", "pgvector", "PostgreSQL", "TypeScript"],
+    highlights: [
+      "RAG on LangChain.js: text splitting, local embeddings, PGVectorStore retrieval, and an LCEL answer chain",
+      "Self-updating corpus: a scheduled Nest job pulls Greenhouse, Lever, and HN 'Who is hiring' postings",
+      "Cited answers: every response shows the retrieved postings and their similarity",
+      "Free to run: on-device embeddings and pgvector on the existing Postgres, no paid vector DB",
+    ],
+    year: 2026,
+    featured: true,
+    href: "/market-fit",
+    sourceHref:
+      "https://github.com/alek-aleksandrov/alek-contact/tree/main/apps/api/src/jobs",
   },
 ];
 
