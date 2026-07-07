@@ -12,6 +12,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+// A gather streams progress while ingest runs; give the function headroom so a
+// streaming response is never cut off mid-flight (Vercel Hobby allows up to 60s).
+export const maxDuration = 60;
 
 export async function POST(): Promise<Response> {
   let upstream: Response;

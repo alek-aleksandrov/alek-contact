@@ -26,4 +26,21 @@ export class RefreshGuard {
       this.lastFinishedAt = this.deps.now();
     }
   }
+
+  /**
+   * Like run(), but for automatic (boot/cron) ingests: it respects the
+   * `running` lock so it can't overlap a manual refresh, but ignores the
+   * cooldown window (which only exists to rate-limit user clicks).
+   */
+  async runImmediate<T>(fn: () => Promise<T>): Promise<RunResult<T>> {
+    if (this.running) return { ok: false, reason: "running" };
+    this.running = true;
+    try {
+      const result = await fn();
+      return { ok: true, result };
+    } finally {
+      this.running = false;
+      this.lastFinishedAt = this.deps.now();
+    }
+  }
 }

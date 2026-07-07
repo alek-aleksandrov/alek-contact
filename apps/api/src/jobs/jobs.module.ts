@@ -19,8 +19,9 @@ import { RefreshGuard } from "./refresh-guard";
     },
     {
       provide: JobIngestService,
-      useFactory: (prisma: PrismaService) => new JobIngestService({ prisma }),
-      inject: [PrismaService],
+      useFactory: (prisma: PrismaService, guard: RefreshGuard) =>
+        new JobIngestService({ prisma, guard }),
+      inject: [PrismaService, RefreshGuard],
     },
     {
       provide: RefreshGuard,

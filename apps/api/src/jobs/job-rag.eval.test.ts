@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
+import { HuggingFaceTransformersEmbeddings } from "@langchain/community/embeddings/huggingface_transformers";
 import { loadSeedPostings } from "./seed";
-import { getEmbeddings } from "./embeddings";
+import { EMBEDDING_MODEL } from "./embeddings";
 
 // Golden questions -> the seed posting id expected in the top-K.
 // One entry per seed posting in postings.seed.json, grounded in that
@@ -64,7 +65,11 @@ function cosine(a: number[], b: number[]): number {
 }
 
 describe("retrieval eval over the seed corpus", () => {
-  const embeddings = getEmbeddings();
+  // Uses the model directly (not getEmbeddings()/WorkerEmbeddings): this eval
+  // measures retrieval quality of real ONNX inference, so it must run
+  // in-process rather than round-trip through a worker thread that only
+  // exists as a compiled .js artifact in built output.
+  const embeddings = new HuggingFaceTransformersEmbeddings({ model: EMBEDDING_MODEL });
   let chunks: { postingId: string; vec: number[] }[] = [];
 
   beforeAll(async () => {

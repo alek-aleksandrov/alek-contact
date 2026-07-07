@@ -78,6 +78,7 @@ model JobPosting {
   commitment String?
   workplace  String?
   salary     String?
+  contentHash String?
   tags       String[] @default([])
 
   @@index([source])
