@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { JobIngestService } from "./job-ingest.service";
+import { contentHash } from "./content-hash";
 import type { JobPosting } from "@repo/shared";
 
 const posting = (id: string): JobPosting => ({
@@ -18,9 +19,13 @@ function makeService(overrides: Partial<any> = {}) {
     jobPosting: {
       upsert: vi.fn().mockResolvedValue(undefined),
       count: vi.fn().mockResolvedValue(0),
+      findUnique: vi.fn().mockResolvedValue(null), // absent by default = new posting
     },
   };
-  const vectorStore = { addDocuments: vi.fn().mockResolvedValue(undefined) };
+  const vectorStore = {
+    addDocuments: vi.fn().mockResolvedValue(undefined),
+    delete: vi.fn().mockResolvedValue(undefined),
+  };
   const deps = {
     prisma: prisma as any,
     fetchers: {
@@ -66,6 +71,63 @@ describe("JobIngestService.indexPostings", () => {
     const docs = vectorStore.addDocuments.mock.calls[0][0];
     expect(docs[0].pageContent).toContain("Remote"); // preamble embedded
     expect(docs[0].metadata.workplace).toBe("Remote"); // metadata for citations
+  });
+
+  it("skips embedding when the stored contentHash is unchanged", async () => {
+    const { service, prisma, vectorStore } = makeService();
+    const p = posting("greenhouse:acme:1");
+    prisma.jobPosting.findUnique.mockResolvedValue({ contentHash: contentHash(p) });
+
+    const chunks = await service.indexPostings([p]);
+
+    expect(vectorStore.addDocuments).not.toHaveBeenCalled();
+    expect(vectorStore.delete).not.toHaveBeenCalled();
+    expect(prisma.jobPosting.upsert).toHaveBeenCalledTimes(1); // metadata still refreshed
+    expect(chunks).toBe(0);
+  });
+
+  it("deletes stale chunks then re-embeds when the hash changed", async () => {
+    const { service, vectorStore, prisma } = makeService();
+    const p = posting("greenhouse:acme:1");
+    prisma.jobPosting.findUnique.mockResolvedValue({ contentHash: "stale-hash" });
+
+    await service.indexPostings([p]);
+
+    expect(vectorStore.delete).toHaveBeenCalledWith({
+      filter: { postingId: "greenhouse:acme:1" },
+    });
+    expect(vectorStore.addDocuments).toHaveBeenCalledTimes(1);
+  });
+
+  it("embeds a new posting without a delete call", async () => {
+    const { service, vectorStore } = makeService(); // findUnique -> null
+    await service.indexPostings([posting("greenhouse:acme:2")]);
+    expect(vectorStore.delete).not.toHaveBeenCalled();
+    expect(vectorStore.addDocuments).toHaveBeenCalledTimes(1);
+  });
+
+  it("stores the new contentHash on upsert", async () => {
+    const { service, prisma } = makeService();
+    const p = posting("greenhouse:acme:1");
+    await service.indexPostings([p]);
+    const arg = prisma.jobPosting.upsert.mock.calls[0][0];
+    expect(arg.create.contentHash).toBe(contentHash(p));
+    expect(arg.update.contentHash).toBe(contentHash(p));
+  });
+
+  it("does not persist the contentHash when embedding fails, so the posting retries", async () => {
+    // If the hash were written before addDocuments, a swallowed embed failure
+    // would mark the posting "done" and skip it forever. The hash must be
+    // persisted only after the embed succeeds.
+    const { service, prisma, vectorStore } = makeService();
+    vectorStore.addDocuments.mockRejectedValue(new Error("embed boom"));
+    const p = posting("greenhouse:acme:err"); // new posting (findUnique -> null)
+
+    const chunks = await service.indexPostings([p]);
+
+    expect(vectorStore.addDocuments).toHaveBeenCalledTimes(1); // it was attempted
+    expect(prisma.jobPosting.upsert).not.toHaveBeenCalled(); // ...but hash not written
+    expect(chunks).toBe(0);
   });
 });
 
